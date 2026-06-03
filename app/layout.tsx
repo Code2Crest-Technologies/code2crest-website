@@ -5,8 +5,6 @@ import localFont from "next/font/local";
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
-import Header from "@/components/ui/header";
-
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -40,20 +38,64 @@ const nacelle = localFont({
   display: "swap",
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://www.code2crest.com"),
 
   title:
     "Code2Crest Technologies - Web Development & Custom Software Solutions",
 
   description:
-    "Code2Crest Technologies builds modern websites, web applications, e-commerce solutions and custom software using React, Next.js, Node.js, MongoDB and modern technologies.",
+    "Code2Crest Technologies builds modern websites, web applications, e-commerce solutions, and custom software using React, Next.js, Node.js, MongoDB, TypeScript, and modern technologies.",
+
+  keywords: [
+    "Code2Crest Technologies",
+    "Web Development",
+    "Website Development",
+    "React.js",
+    "Next.js",
+    "Node.js",
+    "MongoDB",
+    "TypeScript",
+    "Tailwind CSS",
+    "E-Commerce Development",
+    "Custom Software Development",
+    "Mobile App Development",
+    "Full Stack Development",
+    "Erode Web Development Company",
+    "Tamil Nadu Software Company",
+  ],
+
+  authors: [
+    {
+      name: "Barath Rahav",
+      url: "https://www.code2crest.com",
+    },
+  ],
+
+  creator: "Barath Rahav",
+  publisher: "Code2Crest Technologies",
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 
   icons: {
     icon: [
       { url: "/favicon.ico" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      {
+        url: "/favicon.svg",
+        type: "image/svg+xml",
+      },
+      {
+        url: "/favicon-96x96.png",
+        sizes: "96x96",
+        type: "image/png",
+      },
     ],
 
     apple: [
@@ -69,16 +111,21 @@ export const metadata = {
   openGraph: {
     title: "Code2Crest Technologies",
     description:
-      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development",
+      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development and Custom Software Solutions.",
+
     url: "https://www.code2crest.com",
     siteName: "Code2Crest Technologies",
+
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
+        alt: "Code2Crest Technologies",
       },
     ],
+
+    locale: "en_US",
     type: "website",
   },
 
@@ -86,19 +133,24 @@ export const metadata = {
     card: "summary_large_image",
     title: "Code2Crest Technologies",
     description:
-      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development",
+      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development and Custom Software Solutions.",
     images: ["/og-image.png"],
   },
+
   appleWebApp: {
+    capable: true,
     title: "Code2Crest",
+    statusBarStyle: "black-translucent",
   },
+
+  category: "technology",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
     <html lang="en">
       <body
@@ -109,7 +161,6 @@ export default function RootLayout({
         </div>
 
         <GoogleAnalytics gaId="G-56WCCMYN4G" />
-        
       </body>
     </html>
   );

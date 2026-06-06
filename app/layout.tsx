@@ -41,6 +41,10 @@ const nacelle = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.code2crest.com"),
 
+  alternates: {
+    canonical: "/",
+  },
+
   title:
     "Code2Crest Technologies - Web Development & Custom Software Solutions",
 

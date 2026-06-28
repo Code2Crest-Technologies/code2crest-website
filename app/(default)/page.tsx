@@ -13,6 +13,8 @@ import GetQuote from "@/components/get-quote";
 import Contact from "@/components/contact";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import Services from "@/components/services";
+import ProductsEcosystem from "@/components/products-ecosystem";
+import LeadFlowHighlight from "@/components/leadflow-highlight";
 
 export default function Page() {
   return (
@@ -20,6 +22,8 @@ export default function Page() {
       <PageIllustration />
       <Home />
       <Services />
+      <ProductsEcosystem />
+      <LeadFlowHighlight />
       <Workflows />
       <Portfolio />
       <AboutFounder />

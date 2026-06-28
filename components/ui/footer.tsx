@@ -1,6 +1,7 @@
 import Logo from "./logo";
 import Image from "next/image";
 import FooterIllustration from "@/public/images/footer-illustration.svg";
+import { products } from "@/data/products";
 
 import {
   FaLinkedin,
@@ -70,7 +71,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4 lg:text-left">
+          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
 
             {/* Services */}
             <div>
@@ -81,7 +82,7 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
                 <li>
                   <a
-                    href="#services"
+                    href="/#services"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Web Development
@@ -90,7 +91,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#services"
+                    href="/#services"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     E-Commerce Solutions
@@ -99,7 +100,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#services"
+                    href="/#services"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     React & Next.js Apps
@@ -108,7 +109,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#services"
+                    href="/#services"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Mobile App Development
@@ -117,7 +118,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#services"
+                    href="/#services"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Custom Software
@@ -135,7 +136,7 @@ export default function Footer() {
               <ul className="space-y-3 text-sm">
                 <li>
                   <a
-                    href="#why-us"
+                    href="/#why-us"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Why Choose Us
@@ -144,7 +145,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#portfolio"
+                    href="/#portfolio"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Portfolio
@@ -153,7 +154,7 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#contact"
+                    href="/#contact"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Contact
@@ -162,12 +163,38 @@ export default function Footer() {
 
                 <li>
                   <a
-                    href="#GetQuote"
+                    href="/#GetQuote"
                     className="text-slate-400 hover:text-indigo-400"
                   >
                     Get Quote
                   </a>
                 </li>
+              </ul>
+            </div>
+
+            {/* Products */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold text-white">
+                Products
+              </h3>
+
+              <ul className="space-y-3 text-sm">
+                {products.map((product) => {
+                  const isExternal = Boolean(product.href);
+
+                  return (
+                    <li key={product.name}>
+                      <a
+                        href={product.href ?? `/products#${product.slug}`}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        className="text-slate-400 hover:text-indigo-400"
+                      >
+                        {product.name}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
 

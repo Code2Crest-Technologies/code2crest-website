@@ -19,27 +19,34 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
             <a
-              href="#services"
+              href="/#services"
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               Services
             </a>
 
             <a
-              href="#why-us"
+              href="/products"
+              className="text-sm font-medium text-slate-300 transition hover:text-white"
+            >
+              Products
+            </a>
+
+            <a
+              href="/#why-us"
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               Why Us
             </a>
 
             <a
-              href="#portfolio"
+              href="/#portfolio"
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               Portfolio
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               Contact
@@ -48,7 +55,7 @@ export default function Header() {
 
           {/* Desktop CTA */}
           <a
-            href="#GetQuote"
+            href="/#GetQuote"
             className="hidden md:inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
           >
             Get Quote
@@ -99,7 +106,7 @@ export default function Header() {
               <nav className="flex flex-col gap-5">
 
                 <a
-                  href="#services"
+                  href="/#services"
                   onClick={() => setMenuOpen(false)}
                   className="text-slate-300 hover:text-white"
                 >
@@ -107,7 +114,15 @@ export default function Header() {
                 </a>
 
                 <a
-                  href="#why-us"
+                  href="/products"
+                  onClick={() => setMenuOpen(false)}
+                  className="text-slate-300 hover:text-white"
+                >
+                  Products
+                </a>
+
+                <a
+                  href="/#why-us"
                   onClick={() => setMenuOpen(false)}
                   className="text-slate-300 hover:text-white"
                 >
@@ -115,7 +130,7 @@ export default function Header() {
                 </a>
 
                 <a
-                  href="#portfolio"
+                  href="/#portfolio"
                   onClick={() => setMenuOpen(false)}
                   className="text-slate-300 hover:text-white"
                 >
@@ -123,15 +138,15 @@ export default function Header() {
                 </a>
 
                 <a
-                  href="/connect"
+                  href="/#contact"
                   onClick={() => setMenuOpen(false)}
                   className="text-slate-300 hover:text-white"
                 >
-                  Connect
+                  Contact
                 </a>
 
                 <a
-                  href="#GetQuote"
+                  href="/#GetQuote"
                   onClick={() => setMenuOpen(false)}
                   className="mt-3 rounded-lg bg-blue-600 px-4 py-3 text-center text-white hover:bg-blue-700"
                 >

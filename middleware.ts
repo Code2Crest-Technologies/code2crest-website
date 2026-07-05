@@ -28,6 +28,26 @@ const apiWindowMs = 60 * 1000;
 const authLimit = 10;
 const apiLimit = 120;
 
+function getHostname(request: NextRequest) {
+  return (
+    request.headers.get("x-forwarded-host") ??
+    request.headers.get("host") ??
+    request.nextUrl.host
+  )
+    .split(":")[0]
+    .toLowerCase();
+}
+
+function isLocalHostname(hostname: string) {
+  return hostname === "localhost" || hostname === "127.0.0.1";
+}
+
+function getPortalLoginUrl(pathname: string) {
+  const loginUrl = new URL("https://app.code2crest.com/login");
+  loginUrl.searchParams.set("next", pathname);
+  return loginUrl;
+}
+
 function isProtectedRoute(pathname: string) {
   return protectedRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
@@ -116,11 +136,28 @@ function finalize(request: NextRequest, response: NextResponse) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const hostname = getHostname(request);
   const startedAt = Date.now();
 
   console.log(
     `[request] ${request.method} ${pathname} ip=${getClientIp(request)}`,
   );
+
+  if (!isLocalHostname(hostname) && hostname === "code2crest.com") {
+    const redirectUrl = new URL(request.nextUrl.pathname, "https://www.code2crest.com");
+    redirectUrl.search = request.nextUrl.search;
+    return finalize(request, NextResponse.redirect(redirectUrl, 308));
+  }
+
+  const isAppHost = hostname === "app.code2crest.com";
+  const isLeadFlowHost = hostname === "leadflow.code2crest.com";
+
+  if ((isAppHost || isLeadFlowHost) && pathname === "/") {
+    const dashboardUrl = request.nextUrl.clone();
+    dashboardUrl.pathname = "/dashboard";
+    dashboardUrl.search = "";
+    return finalize(request, NextResponse.redirect(dashboardUrl));
+  }
 
   if (pathname.startsWith("/api/")) {
     const origin = request.headers.get("origin");
@@ -165,12 +202,20 @@ export async function middleware(request: NextRequest) {
   const loginUrl = new URL("/login", request.url);
   loginUrl.searchParams.set("next", pathname);
 
-  return finalize(request, NextResponse.redirect(loginUrl));
+  return finalize(
+    request,
+    NextResponse.redirect(
+      isLeadFlowHost ? getPortalLoginUrl(pathname) : loginUrl,
+    ),
+  );
 }
 
 export const config = {
   matcher: [
+    "/",
     "/api/:path*",
+    "/login",
+    "/register",
     "/dashboard/:path*",
     "/products/:path*",
     "/company/:path*",

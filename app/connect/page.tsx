@@ -3,7 +3,7 @@ export const metadata = {
   description: "Get in touch with Code2Crest Technologies. Connect with our founder Barath Rahav for web development, custom software solutions, and free consultations.",
 };
 
-import ConnectPageComponent from "@/components/connect-page";
+import ConnectPageComponent from "@/modules/website/components/connect-page";
 
 export default function Page() {
   return (

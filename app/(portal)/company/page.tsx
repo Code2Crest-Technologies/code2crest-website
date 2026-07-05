@@ -1,6 +1,8 @@
-import { mockCompany } from "@/data/portal";
+import { requireCompany } from "@/lib/auth/server";
 
-export default function CompanyPage() {
+export default async function CompanyPage() {
+  const context = await requireCompany();
+
   return (
     <div className="space-y-6">
       <div>
@@ -14,9 +16,9 @@ export default function CompanyPage() {
 
       <section className="grid gap-4 lg:grid-cols-3">
         {[
-          ["Company Name", mockCompany.name],
-          ["Workspace", mockCompany.workspace],
-          ["Plan", mockCompany.plan],
+          ["Company Name", context.company.name],
+          ["Workspace", context.company.workspace],
+          ["Plan", context.company.plan],
         ].map(([label, value]) => (
           <div
             key={label}

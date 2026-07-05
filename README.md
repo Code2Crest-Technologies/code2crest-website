@@ -1,86 +1,78 @@
 # Code2Crest Technologies Website
 
-Official website for Code2Crest Technologies, built with Next.js, React, and Tailwind CSS.
+Official Code2Crest Technologies website and unified SaaS portal, built with Next.js, React, TypeScript, and Tailwind CSS.
 
 ## Overview
 
 Code2Crest Technologies helps startups and businesses build:
 
-* Modern Websites
-* Web Applications
-* E-Commerce Platforms
-* Custom Software Solutions
-* Mobile Applications
+- Modern websites
+- Web applications
+- E-commerce platforms
+- Custom software solutions
+- Mobile applications
 
-The website serves as the company's digital presence and lead generation platform.
-
----
+The project currently runs as one Next.js App Router application containing the public marketing website, auth pages, unified portal, and API routes.
 
 ## Technology Stack
 
-### Frontend
-
-* Next.js 15
-* React 19
-* TypeScript
-* Tailwind CSS v4
-
-### UI & Animations
-
-* AOS (Animate On Scroll)
-* React Icons
-
-### Deployment
-
-* Vercel
-
----
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Prisma
+- PostgreSQL
+- React Icons
 
 ## Features
 
-* Responsive Design
-* Modern Landing Page
-* Services Showcase
-* Portfolio Section
-* Founder Profile
-* Dedicated Connect Page
-* WhatsApp Integration
-* SEO Optimized
-* Open Graph Support
-* Sitemap & Robots Configuration
-
----
+- Public marketing website
+- Unified portal dashboard
+- Authentication-ready login and registration
+- Company/workspace architecture
+- Product access system
+- Team invite foundation
+- Subscription foundation
+- LeadFlow permission layer
+- SEO metadata, sitemap, robots, Open Graph, and web manifest
 
 ## Project Structure
 
 ```text
 app/
-├── page.tsx
-├── connect/
-├── api/
++- (public)/       # Public marketing routes
++- (auth)/         # Login and registration routes
++- (portal)/       # Protected unified portal routes
++- api/            # API route handlers
++- connect/
++- layout.tsx
++- globals.css
 
-components/
-├── ui/
-├── sections/
+modules/
++- website/        # Marketing website UI and data
++- portal/         # Portal UI, data, and hooks
++- leadflow/       # LeadFlow API helpers and permissions
++- products/
++- subscription/
++- team/
++- auth/
++- company/
 
-hooks/
+lib/
++- auth/
++- db/
++- company/
++- config/
++- http/
++- security/
++- utils/
 
+prisma/
+docs/
 public/
-├── images/
-├── favicon.ico
-├── apple-touch-icon.png
-├── og-image.png
-├── sitemap.xml
-├── robots.txt
 ```
 
 ## Installation
-
-Clone the repository:
-
-```bash
-git clone <repository-url>
-```
 
 Install dependencies:
 
@@ -88,7 +80,7 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Run the development server:
 
 ```bash
 npm run dev
@@ -98,6 +90,12 @@ Open:
 
 ```text
 http://localhost:3000
+```
+
+Generate Prisma client:
+
+```bash
+npx prisma generate
 ```
 
 Build for production:
@@ -112,46 +110,24 @@ Start production server:
 npm start
 ```
 
----
+## Documentation
 
-## SEO
-
-Configured with:
-
-* Metadata API
-* Open Graph Tags
-* Twitter Cards
-* Sitemap.xml
-* Robots.txt
-* Web Manifest
-* Favicon Package
-
----
+- Deployment: `docs/DEPLOYMENT.md`
+- Project structure: `docs/PROJECT_STRUCTURE.md`
+- Changelog: `docs/CHANGELOG.md`
 
 ## Contact
 
-### Code2Crest Technologies
+Code2Crest Technologies
 
-Email:
+Email: [hello@code2crest.com](mailto:hello@code2crest.com)
 
-[hello@code2crest.com](mailto:hello@code2crest.com)
+Website: https://www.code2crest.com
 
-Website:
+Location: Erode, Tamil Nadu, India
 
-https://www.code2crest.com
-
-Location:
-
-Erode, Tamil Nadu, India
-
-Founder:
-
-Barath Rahav
-
----
+Founder: Barath Rahav
 
 ## License
 
-Copyright © Code2Crest Technologies.
-
-All Rights Reserved.
+Copyright (c) Code2Crest Technologies. All rights reserved.

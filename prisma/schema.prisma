@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum MembershipRole {
+  OWNER
+  ADMIN
+  MANAGER
+  SALES
+  VIEWER
+}
+
+enum ProductStatus {
+  ACTIVE
+  COMING_SOON
+  BETA
+  DISABLED
+}
+
+enum CompanyProductStatus {
+  TRIAL
+  ACTIVE
+  SUSPENDED
+  CANCELLED
+  EXPIRED
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+}
+
+enum Plan {
+  TRIAL
+  STARTER
+  GROWTH
+  BUSINESS
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELLED
+  EXPIRED
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  ownedCompanies Company[]    @relation("CompanyOwner")
+  memberships    Membership[]
+  sentInvites     Invite[]     @relation("InvitesSentBy")
+
+  @@index([email])
+}
+
+model Company {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner        User             @relation("CompanyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  memberships  Membership[]
+  products     CompanyProduct[]
+  invites      Invite[]
+  subscription Subscription?
+
+  @@index([ownerId])
+  @@index([slug])
+}
+
+model Membership {
+  id        String         @id @default(cuid())
+  companyId String
+  userId    String
+  role      MembershipRole
+  isActive  Boolean        @default(true)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, userId])
+  @@index([companyId])
+  @@index([userId])
+  @@index([userId, isActive])
+  @@index([companyId, role])
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  key         String        @unique
+  name        String
+  description String
+  status      ProductStatus
+  appUrl      String?
+  sortOrder   Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  companies CompanyProduct[]
+
+  @@index([status])
+  @@index([sortOrder])
+}
+
+model CompanyProduct {
+  id          String               @id @default(cuid())
+  companyId   String
+  productId   String
+  status      CompanyProductStatus
+  trialEndsAt DateTime?
+  activatedAt DateTime?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([companyId, productId])
+  @@index([companyId])
+  @@index([productId])
+  @@index([companyId, status])
+}
+
+model Invite {
+  id          String         @id @default(cuid())
+  companyId   String
+  email       String
+  role        MembershipRole
+  token       String         @unique
+  status      InviteStatus   @default(PENDING)
+  expiresAt   DateTime
+  invitedById String
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  invitedBy User    @relation("InvitesSentBy", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([email])
+  @@index([status])
+  @@index([token])
+  @@index([companyId, email, status])
+}
+
+model Subscription {
+  id               String             @id @default(cuid())
+  companyId        String             @unique
+  plan             Plan
+  status           SubscriptionStatus
+  trialEndsAt      DateTime?
+  currentPeriodEnd DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([status])
+  @@index([plan])
+}

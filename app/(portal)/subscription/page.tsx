@@ -1,4 +1,4 @@
-import { mockCompany } from "@/data/portal";
+import SubscriptionPanel from "@/modules/portal/components/subscription-panel";
 
 export default function SubscriptionPage() {
   return (
@@ -12,16 +12,7 @@ export default function SubscriptionPage() {
         </p>
       </div>
 
-      <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/70">
-        <p className="text-sm font-semibold text-blue-600">Current Plan</p>
-        <h2 className="mt-3 text-2xl font-semibold text-slate-950">
-          {mockCompany.plan}
-        </h2>
-        <p className="mt-3 max-w-xl text-sm leading-6 text-slate-600">
-          Includes portal access, LeadFlow launch access, and early previews for
-          upcoming Code2Crest workflow products.
-        </p>
-      </section>
+      <SubscriptionPanel />
     </div>
   );
 }

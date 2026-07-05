@@ -1,6 +1,8 @@
-import { mockUser } from "@/data/portal";
+import { requireCompany } from "@/lib/auth/server";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const context = await requireCompany();
+
   return (
     <div className="space-y-6">
       <div>
@@ -16,13 +18,13 @@ export default function SettingsPage() {
         <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70">
           <p className="text-sm font-medium text-slate-500">Name</p>
           <p className="mt-3 text-lg font-semibold text-slate-950">
-            {mockUser.name}
+            {context.user.name}
           </p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70">
           <p className="text-sm font-medium text-slate-500">Email</p>
           <p className="mt-3 text-lg font-semibold text-slate-950">
-            {mockUser.email}
+            {context.user.email}
           </p>
         </div>
       </section>

@@ -1,15 +1,25 @@
 import type { Metadata } from "next";
-import PortalShell from "@/components/portal/portal-shell";
+import PortalShell from "@/modules/portal/components/portal-shell";
+import { requireCompany } from "@/lib/auth/server";
 
 export const metadata: Metadata = {
   title: "Code2Crest Unified Portal",
   description: "Unified SaaS dashboard for Code2Crest products.",
 };
 
-export default function PortalLayout({
+export default async function PortalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <PortalShell>{children}</PortalShell>;
+  const companyContext = await requireCompany();
+
+  return (
+    <PortalShell
+      company={companyContext.company}
+      user={{ ...companyContext.user, role: companyContext.membershipRole }}
+    >
+      {children}
+    </PortalShell>
+  );
 }

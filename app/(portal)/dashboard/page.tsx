@@ -6,27 +6,30 @@ import {
   FaLayerGroup,
   FaUsers,
 } from "react-icons/fa6";
-import ProductGrid from "@/components/portal/product-grid";
-import { mockCompany, mockUser, portalProducts } from "@/data/portal";
+import ProductGrid from "@/modules/portal/components/product-grid";
+import { requireCompany } from "@/lib/auth/server";
+import { getCompanyProductAccess } from "@/modules/products/server";
 
-const stats = [
-  { label: "Products", value: portalProducts.length, icon: FaLayerGroup },
-  { label: "Team Members", value: mockCompany.members, icon: FaUsers },
-  { label: "Company", value: "Active", icon: FaBuilding },
-  { label: "Plan", value: mockCompany.plan, icon: FaCreditCard },
-];
+export default async function DashboardPage() {
+  const context = await requireCompany();
+  const products = await getCompanyProductAccess(context.companyId);
+  const stats = [
+    { label: "Products", value: products.length, icon: FaLayerGroup },
+    { label: "Team Members", value: context.company.members, icon: FaUsers },
+    { label: "Company", value: "Active", icon: FaBuilding },
+    { label: "Plan", value: context.company.plan, icon: FaCreditCard },
+  ];
 
-export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-lg bg-slate-950 p-6 text-white shadow-sm">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <p className="text-sm font-semibold text-blue-300">
-              {mockCompany.workspace}
+              {context.company.workspace}
             </p>
             <h1 className="mt-3 text-2xl font-semibold sm:text-3xl">
-              Welcome back, {mockUser.name}
+              Welcome back, {context.user.name}
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
               Manage your Code2Crest product ecosystem, company workspace, team,
@@ -74,7 +77,7 @@ export default function DashboardPage() {
             Open active apps and preview upcoming Code2Crest tools.
           </p>
         </div>
-        <ProductGrid compact />
+        <ProductGrid compact products={products} />
       </section>
     </div>
   );

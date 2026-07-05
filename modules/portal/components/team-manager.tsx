@@ -1,6 +1,9 @@
 "use client";
 
-import { MembershipRole } from "@prisma/client";
+import {
+  membershipRoles,
+  type MembershipRole,
+} from "@/modules/portal/data/roles";
 import { useEffect, useMemo, useState } from "react";
 
 type TeamMember = {
@@ -20,48 +23,37 @@ type TeamResponse = {
   members: TeamMember[];
 };
 
-const inviteRoles = [
-  MembershipRole.ADMIN,
-  MembershipRole.MANAGER,
-  MembershipRole.SALES,
-  MembershipRole.VIEWER,
-];
+const inviteRoles = ["ADMIN", "MANAGER", "SALES", "VIEWER"];
 
-const allRoles = [
-  MembershipRole.OWNER,
-  MembershipRole.ADMIN,
-  MembershipRole.MANAGER,
-  MembershipRole.SALES,
-  MembershipRole.VIEWER,
-];
+const allRoles = ["OWNER", "ADMIN", "MANAGER", "SALES", "VIEWER"];
 
 function formatRole(role: MembershipRole) {
-  return role
-    .toLowerCase()
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  return role.toLowerCase().replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 export default function TeamManager() {
   const [members, setMembers] = useState<TeamMember[]>([]);
-  const [currentUserRole, setCurrentUserRole] = useState<MembershipRole | null>(null);
+  const [currentUserRole, setCurrentUserRole] = useState<MembershipRole | null>(
+    null,
+  );
   const [email, setEmail] = useState("");
-  const [role, setRole] = useState<MembershipRole>(MembershipRole.VIEWER);
+  const [role, setRole] = useState<MembershipRole>("VIEWER");
   const [inviteLink, setInviteLink] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isInviting, setIsInviting] = useState(false);
 
   const canManage = useMemo(
-    () =>
-      currentUserRole === MembershipRole.OWNER ||
-      currentUserRole === MembershipRole.ADMIN,
+    () => currentUserRole === "OWNER" || currentUserRole === "ADMIN",
     [currentUserRole],
   );
 
   async function loadTeam() {
     setIsLoading(true);
     const response = await fetch("/api/team", { cache: "no-store" });
-    const data = (await response.json().catch(() => null)) as TeamResponse | null;
+    const data = (await response
+      .json()
+      .catch(() => null)) as TeamResponse | null;
 
     if (response.ok && data) {
       setMembers(data.members);
@@ -102,7 +94,7 @@ export default function TeamManager() {
 
     setInviteLink(data?.inviteLink ?? "");
     setEmail("");
-    setRole(MembershipRole.VIEWER);
+    setRole("VIEWER");
   }
 
   async function updateRole(membershipId: string, nextRole: MembershipRole) {
@@ -112,7 +104,9 @@ export default function TeamManager() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ role: nextRole }),
     });
-    const data = (await response.json().catch(() => null)) as { message?: string } | null;
+    const data = (await response.json().catch(() => null)) as {
+      message?: string;
+    } | null;
 
     if (!response.ok) {
       setMessage(data?.message ?? "Unable to update role.");
@@ -127,7 +121,9 @@ export default function TeamManager() {
     const response = await fetch(`/api/team/${membershipId}`, {
       method: "DELETE",
     });
-    const data = (await response.json().catch(() => null)) as { message?: string } | null;
+    const data = (await response.json().catch(() => null)) as {
+      message?: string;
+    } | null;
 
     if (!response.ok) {
       setMessage(data?.message ?? "Unable to remove member.");
@@ -141,9 +137,15 @@ export default function TeamManager() {
     <div className="space-y-6">
       {canManage ? (
         <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70">
-          <form className="grid gap-4 lg:grid-cols-[1fr_180px_auto]" onSubmit={handleInvite}>
+          <form
+            className="grid gap-4 lg:grid-cols-[1fr_180px_auto]"
+            onSubmit={handleInvite}
+          >
             <div>
-              <label htmlFor="inviteEmail" className="text-sm font-semibold text-slate-700">
+              <label
+                htmlFor="inviteEmail"
+                className="text-sm font-semibold text-slate-700"
+              >
                 Invite Email
               </label>
               <input
@@ -156,18 +158,23 @@ export default function TeamManager() {
               />
             </div>
             <div>
-              <label htmlFor="inviteRole" className="text-sm font-semibold text-slate-700">
+              <label
+                htmlFor="inviteRole"
+                className="text-sm font-semibold text-slate-700"
+              >
                 Role
               </label>
               <select
                 id="inviteRole"
                 value={role}
-                onChange={(event) => setRole(event.target.value as MembershipRole)}
+                onChange={(event) =>
+                  setRole(event.target.value as MembershipRole)
+                }
                 className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
               >
                 {inviteRoles.map((inviteRole) => (
                   <option key={inviteRole} value={inviteRole}>
-                    {formatRole(inviteRole)}
+                    {formatRole(inviteRole as MembershipRole)}
                   </option>
                 ))}
               </select>
@@ -186,7 +193,9 @@ export default function TeamManager() {
           {inviteLink ? (
             <div className="mt-4 rounded-md border border-blue-200 bg-blue-50 p-3">
               <p className="text-sm font-semibold text-blue-900">Invite link</p>
-              <p className="mt-1 break-all text-sm text-blue-700">{inviteLink}</p>
+              <p className="mt-1 break-all text-sm text-blue-700">
+                {inviteLink}
+              </p>
             </div>
           ) : null}
         </section>
@@ -207,11 +216,15 @@ export default function TeamManager() {
         </div>
 
         {isLoading ? (
-          <div className="px-5 py-6 text-sm text-slate-600">Loading team...</div>
+          <div className="px-5 py-6 text-sm text-slate-600">
+            Loading team...
+          </div>
         ) : null}
 
         {!isLoading && members.length === 0 ? (
-          <div className="px-5 py-6 text-sm text-slate-600">No team members found.</div>
+          <div className="px-5 py-6 text-sm text-slate-600">
+            No team members found.
+          </div>
         ) : null}
 
         {members.map((member) => (
@@ -219,7 +232,9 @@ export default function TeamManager() {
             key={member.id}
             className="grid grid-cols-1 gap-3 border-b border-slate-100 px-5 py-4 text-sm last:border-b-0 lg:grid-cols-[1.2fr_1.4fr_180px_120px] lg:items-center"
           >
-            <span className="font-semibold text-slate-950">{member.user.name}</span>
+            <span className="font-semibold text-slate-950">
+              {member.user.name}
+            </span>
             <span className="text-slate-600">{member.user.email}</span>
             {canManage ? (
               <select
@@ -231,7 +246,7 @@ export default function TeamManager() {
               >
                 {allRoles.map((memberRole) => (
                   <option key={memberRole} value={memberRole}>
-                    {formatRole(memberRole)}
+                    {formatRole(memberRole as MembershipRole)}
                   </option>
                 ))}
               </select>

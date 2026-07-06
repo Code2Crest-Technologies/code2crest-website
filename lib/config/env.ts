@@ -1,4 +1,4 @@
-const requiredServerEnv = ["DATABASE_URL", "AUTH_SECRET"] as const;
+const requiredServerEnv = ["DATABASE_URL", "AUTH_SECRET", "SSO_SECRET"] as const;
 
 export type EnvValidationResult = {
   ok: boolean;
@@ -19,6 +19,14 @@ export function validateProductionEnv(): EnvValidationResult {
     process.env.AUTH_SECRET.length < 32
   ) {
     warnings.push("AUTH_SECRET should be at least 32 characters.");
+  }
+
+  if (
+    process.env.NODE_ENV === "production" &&
+    process.env.SSO_SECRET &&
+    process.env.SSO_SECRET.length < 32
+  ) {
+    warnings.push("SSO_SECRET should be at least 32 characters.");
   }
 
   return {

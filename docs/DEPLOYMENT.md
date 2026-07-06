@@ -9,12 +9,14 @@ Create production environment variables in the hosting provider:
 ```bash
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/code2crest?schema=public"
 AUTH_SECRET="use-a-random-32-plus-character-secret"
+SSO_SECRET="use-a-random-32-plus-character-sso-secret"
 NEXT_PUBLIC_APP_URL="https://app.code2crest.com"
 NEXT_PUBLIC_MARKETING_URL="https://www.code2crest.com"
 NEXT_PUBLIC_LEADFLOW_URL="https://leadflow.code2crest.com"
 ```
 
 `AUTH_SECRET` signs the httpOnly portal session cookie. Use a strong random value and rotate carefully.
+`SSO_SECRET` signs short-lived LeadFlow launch tokens and must match the verifier configured in LeadFlow.
 
 ## Vercel Frontend Deployment
 
@@ -101,6 +103,7 @@ The health route reports environment validation status and returns `500` when re
 ## Security Notes
 
 - Do not use the development fallback `AUTH_SECRET` in production.
+- Do not use the development fallback `SSO_SECRET` in production.
 - Do not expose `DATABASE_URL` to the browser.
 - Keep `NODE_ENV=production` in production.
 - Cookies are marked `secure` in production route handlers.

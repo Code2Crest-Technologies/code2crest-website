@@ -20,6 +20,14 @@ function formatAccessStatus(status: CompanyProductStatus) {
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
+function getProductLaunchUrl(product: ProductAccessView) {
+  if (product.key === "leadflow") {
+    return "/api/products/leadflow/launch";
+  }
+
+  return product.appUrl;
+}
+
 export default function ProductGrid({ compact = false, products }: ProductGridProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -29,6 +37,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
         const hasAccess =
           access?.status === CompanyProductStatus.TRIAL ||
           access?.status === CompanyProductStatus.ACTIVE;
+        const launchUrl = getProductLaunchUrl(product);
 
         return (
           <article
@@ -69,9 +78,9 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
               {product.description}
             </p>
 
-            {hasAccess && product.appUrl ? (
+            {hasAccess && launchUrl ? (
               <a
-                href={product.appUrl}
+                href={launchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700"

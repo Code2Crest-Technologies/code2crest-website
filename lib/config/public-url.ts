@@ -7,9 +7,9 @@ function normalizePath(path: string) {
 export function getPortalHref(path: string) {
   const normalizedPath = normalizePath(path);
 
-  if (process.env.NODE_ENV !== "production" || !configuredAppUrl) {
+  if (process.env.NODE_ENV !== "production") {
     return normalizedPath;
   }
 
-  return `${configuredAppUrl}${normalizedPath}`;
+  return `${configuredAppUrl ?? "https://app.code2crest.com"}${normalizedPath}`;
 }

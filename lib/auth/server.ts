@@ -61,6 +61,12 @@ export async function getCurrentCompany() {
     include: {
       company: {
         include: {
+          owner: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
           _count: {
             select: { memberships: true },
           },
@@ -78,9 +84,11 @@ export async function getCurrentCompany() {
       id: membership.company.id,
       name: membership.company.name,
       slug: membership.company.slug,
-      workspace: "Code2Crest Unified Portal",
+      workspace: "Code2Crest Hub",
       plan: "Founder Preview",
       members: membership.company._count.memberships,
+      createdAt: membership.company.createdAt.toISOString(),
+      owner: membership.company.owner,
     },
     membershipRole: membership.role,
   };
@@ -117,6 +125,12 @@ export async function getAuthContext() {
     include: {
       company: {
         include: {
+          owner: {
+            select: {
+              name: true,
+              email: true,
+            },
+          },
           _count: {
             select: { memberships: true },
           },
@@ -136,9 +150,11 @@ export async function getAuthContext() {
       id: membership.company.id,
       name: membership.company.name,
       slug: membership.company.slug,
-      workspace: "Code2Crest Unified Portal",
+      workspace: "Code2Crest Hub",
       plan: "Founder Preview",
       members: membership.company._count.memberships,
+      createdAt: membership.company.createdAt.toISOString(),
+      owner: membership.company.owner,
     },
     membershipRole: membership.role as MembershipRole,
     companyId: membership.company.id,

@@ -177,6 +177,10 @@ export default function SubscriptionPanel() {
           </div>
         ))}
       </section>
+
+      <p className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-medium text-blue-800">
+        Payments will be enabled after beta.
+      </p>
     </div>
   );
 }

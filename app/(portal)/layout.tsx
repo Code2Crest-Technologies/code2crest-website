@@ -3,8 +3,8 @@ import PortalShell from "@/modules/portal/components/portal-shell";
 import { requireCompany } from "@/lib/auth/server";
 
 export const metadata: Metadata = {
-  title: "Code2Crest Unified Portal",
-  description: "Unified SaaS dashboard for Code2Crest products.",
+  title: "Code2Crest Hub",
+  description: "Business hub for Code2Crest products.",
 };
 
 export default async function PortalLayout({

@@ -8,7 +8,7 @@ export default function SubscriptionPage() {
           Subscription
         </h1>
         <p className="mt-2 text-sm text-slate-600">
-          Billing is mocked for the MVP and ready for a future payment provider.
+          Track your current plan, beta trial status, and workspace usage.
         </p>
       </div>
 

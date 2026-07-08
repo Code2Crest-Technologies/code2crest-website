@@ -14,6 +14,11 @@ export type AuthCompany = {
   workspace: string;
   plan: string;
   members: number;
+  createdAt?: string;
+  owner?: {
+    name: string;
+    email: string;
+  };
 };
 
 export type AuthSession = {

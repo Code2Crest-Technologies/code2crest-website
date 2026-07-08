@@ -35,7 +35,7 @@ export default function PortalShell({ children, company, user }: PortalShellProp
             </span>
             <span>
               <span className="block text-base font-semibold">Code2Crest</span>
-              <span className="block text-xs text-slate-400">Unified Portal</span>
+              <span className="block text-xs text-slate-400">Business Hub</span>
             </span>
           </Link>
         </div>

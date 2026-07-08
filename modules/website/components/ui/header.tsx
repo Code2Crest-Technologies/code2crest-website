@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Logo from "./logo";
 import { getPortalHref } from "@/lib/config/public-url";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const productsHref = getPortalHref("/products");
+  const pathname = usePathname();
+  const productsHref = pathname === "/products" ? "/products" : "/#products";
+  const hubLoginHref = getPortalHref("/login");
 
   return (
     <header className="sticky top-0 z-50 py-4">
@@ -58,9 +61,16 @@ export default function Header() {
           {/* Desktop CTA */}
           <a
             href="/#GetQuote"
-            className="hidden md:inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
+            className="hidden md:inline-flex rounded-lg border border-slate-700 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:border-blue-500 hover:text-white"
           >
             Get Quote
+          </a>
+
+          <a
+            href={hubLoginHref}
+            className="hidden md:inline-flex rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-blue-700"
+          >
+            Hub Login
           </a>
 
           {/* Mobile Menu Button */}
@@ -150,9 +160,17 @@ export default function Header() {
                 <a
                   href="/#GetQuote"
                   onClick={() => setMenuOpen(false)}
-                  className="mt-3 rounded-lg bg-blue-600 px-4 py-3 text-center text-white hover:bg-blue-700"
+                  className="mt-3 rounded-lg border border-slate-700 px-4 py-3 text-center text-slate-200 hover:border-blue-500 hover:text-white"
                 >
                   Get Quote
+                </a>
+
+                <a
+                  href={hubLoginHref}
+                  onClick={() => setMenuOpen(false)}
+                  className="rounded-lg bg-blue-600 px-4 py-3 text-center text-white hover:bg-blue-700"
+                >
+                  Hub Login
                 </a>
 
               </nav>

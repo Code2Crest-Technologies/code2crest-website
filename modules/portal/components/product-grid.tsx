@@ -28,6 +28,10 @@ function getProductLaunchUrl(product: ProductAccessView) {
   return product.appUrl;
 }
 
+function getProductDomain(productKey: string) {
+  return `${productKey}.code2crest.com`;
+}
+
 export default function ProductGrid({ compact = false, products }: ProductGridProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -100,7 +104,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
 
             {!compact ? (
               <div className="mt-4 border-t border-slate-100 pt-4 text-xs font-medium text-slate-500">
-                code2crest.com/{product.key}
+                {getProductDomain(product.key)}
               </div>
             ) : null}
           </article>

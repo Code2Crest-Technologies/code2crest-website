@@ -1,5 +1,7 @@
+import Image from "next/image";
 import ProductCard from "@/modules/website/components/product-card";
 import { products } from "@/modules/portal/data/products";
+import SecondaryIllustration from "@/public/images/secondary-illustration.svg";
 
 export default function ProductsEcosystem() {
   return (
@@ -8,22 +10,32 @@ export default function ProductsEcosystem() {
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="border-t py-16 md:py-20 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
-          <div className="mx-auto max-w-3xl pb-12 text-center">
-            <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-blue-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-blue-200/50">
-              <span className="inline-flex bg-linear-to-r from-blue-500 to-cyan-300 bg-clip-text font-semibold text-transparent">
-                Products
-              </span>
+          <div className="grid gap-10 pb-12 lg:grid-cols-[1fr_360px] lg:items-center">
+            <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
+              <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-blue-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-blue-200/50">
+                <span className="inline-flex bg-linear-to-r from-blue-500 to-cyan-300 bg-clip-text font-semibold text-transparent">
+                  Products
+                </span>
+              </div>
+
+              <h2 className="pb-4 font-nacelle text-3xl font-semibold text-white md:text-4xl">
+                Code2Crest Ecosystem
+              </h2>
+
+              <p className="text-lg text-indigo-200/65">
+                Explore Code2Crest products built for leads, projects, support,
+                HR, and operations.
+              </p>
             </div>
 
-            <h2 className="pb-4 font-nacelle text-3xl font-semibold text-white md:text-4xl">
-              Code2Crest Ecosystem
-            </h2>
-
-            <p className="text-lg text-indigo-200/65">
-              One company. Multiple business tools. Built to help growing teams
-              manage leads, projects, support, HR, and operations from one
-              connected platform.
-            </p>
+            <div className="hidden justify-end lg:flex" aria-hidden="true">
+              <Image
+                src={SecondaryIllustration}
+                alt=""
+                className="h-auto w-full max-w-sm opacity-80"
+                priority={false}
+              />
+            </div>
           </div>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

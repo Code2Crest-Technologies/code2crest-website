@@ -18,8 +18,8 @@ export default async function ProductsPage() {
             Products
           </h1>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            The Code2Crest product suite in one place, with LeadFlow active and
-            the next workflow products queued for release.
+            Open active Code2Crest apps, review company product access, and see
+            the workflow tools queued for your workspace.
           </p>
         </div>
 

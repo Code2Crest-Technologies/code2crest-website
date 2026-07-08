@@ -78,7 +78,7 @@ export default function LoginForm() {
       <p className="text-center text-sm text-slate-600">
         New to Code2Crest?{" "}
         <Link href="/register" className="font-semibold text-blue-600">
-          Create account
+          Create workspace
         </Link>
       </p>
     </form>

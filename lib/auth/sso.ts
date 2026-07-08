@@ -3,12 +3,23 @@ import { createHmac } from "crypto";
 const DEFAULT_DEV_SSO_SECRET = "code2crest-dev-sso-secret-change-in-production";
 
 export type LeadFlowSsoPayload = {
-  userId: string;
-  name: string;
+  portalUserId: string;
+  portalCompanyId: string;
   email: string;
-  companyId: string;
-  companyName: string;
+  firstName: string;
+  lastName: string;
   role: string;
+  productKey: "leadflow";
+  subscriptionStatus: string;
+  productAccess: string;
+  companyName: string;
+  companySlug: string;
+  subscriptionPlan: string;
+  iss: string;
+  aud: string;
+  jti: string;
+  userId: string;
+  companyId: string;
   product: "leadflow";
 };
 

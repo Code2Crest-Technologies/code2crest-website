@@ -52,7 +52,6 @@ export default function LoginForm() {
           id="email"
           name="email"
           type="email"
-          defaultValue="barath@code2crest.com"
           className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
         />
       </div>
@@ -64,7 +63,6 @@ export default function LoginForm() {
           id="password"
           name="password"
           type="password"
-          defaultValue="password"
           className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
         />
       </div>

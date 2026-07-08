@@ -42,10 +42,35 @@ function isLocalHostname(hostname: string) {
   return hostname === "localhost" || hostname === "127.0.0.1";
 }
 
-function getPortalLoginUrl(pathname: string) {
-  const loginUrl = new URL("https://app.code2crest.com/login");
-  loginUrl.searchParams.set("next", pathname);
+function isMarketingHostname(hostname: string) {
+  return hostname === "www.code2crest.com" || hostname === "code2crest.com";
+}
+
+function getPortalBaseUrl() {
+  return process.env.NEXT_PUBLIC_APP_URL ?? "https://app.code2crest.com";
+}
+
+function getSafeNextPath(request: NextRequest) {
+  return `${request.nextUrl.pathname}${request.nextUrl.search}`;
+}
+
+function getPortalUrl(request: NextRequest, pathname: string, search = "") {
+  const url = isLocalHostname(getHostname(request))
+    ? new URL(pathname, request.url)
+    : new URL(pathname, getPortalBaseUrl());
+  url.search = search;
+
+  return url;
+}
+
+function getPortalLoginUrl(request: NextRequest, nextPath: string) {
+  const loginUrl = getPortalUrl(request, "/login");
+  loginUrl.searchParams.set("next", nextPath);
   return loginUrl;
+}
+
+function isPortalAuthRoute(pathname: string) {
+  return pathname === "/login" || pathname === "/register";
 }
 
 function isProtectedRoute(pathname: string) {
@@ -151,12 +176,20 @@ export async function middleware(request: NextRequest) {
 
   const isAppHost = hostname === "app.code2crest.com";
   const isLeadFlowHost = hostname === "leadflow.code2crest.com";
+  const isMarketingHost = isMarketingHostname(hostname);
 
   if ((isAppHost || isLeadFlowHost) && pathname === "/") {
     const dashboardUrl = request.nextUrl.clone();
     dashboardUrl.pathname = "/dashboard";
     dashboardUrl.search = "";
     return finalize(request, NextResponse.redirect(dashboardUrl));
+  }
+
+  if (isMarketingHost && isPortalAuthRoute(pathname)) {
+    return finalize(
+      request,
+      NextResponse.redirect(getPortalUrl(request, pathname, request.nextUrl.search)),
+    );
   }
 
   if (pathname.startsWith("/api/")) {
@@ -194,18 +227,27 @@ export async function middleware(request: NextRequest) {
   const session = await verifySessionToken(token);
 
   if (session) {
+    if (isMarketingHost) {
+      return finalize(
+        request,
+        NextResponse.redirect(getPortalUrl(request, pathname, request.nextUrl.search)),
+      );
+    }
+
     const response = finalize(request, NextResponse.next());
     response.headers.set("Server-Timing", `app;dur=${Date.now() - startedAt}`);
     return response;
   }
 
   const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("next", pathname);
+  loginUrl.searchParams.set("next", getSafeNextPath(request));
 
   return finalize(
     request,
     NextResponse.redirect(
-      isLeadFlowHost ? getPortalLoginUrl(pathname) : loginUrl,
+      isLeadFlowHost || isMarketingHost
+        ? getPortalLoginUrl(request, getSafeNextPath(request))
+        : loginUrl,
     ),
   );
 }

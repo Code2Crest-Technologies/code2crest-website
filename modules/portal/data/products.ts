@@ -1,3 +1,5 @@
+import { getPortalHref } from "@/lib/config/public-url";
+
 export type ProductStatus = "Active / Launching Soon" | "Coming Soon";
 
 export type Product = {
@@ -17,7 +19,7 @@ export const products: Product[] = [
     description:
       "CRM for small businesses to manage leads, contacts, deals, quotations, tasks, and WhatsApp follow-ups.",
     cta: "Open LeadFlow",
-    href: "https://leadflow.code2crest.com",
+    href: getPortalHref("/products"),
   },
   {
     name: "ProjectFlow",

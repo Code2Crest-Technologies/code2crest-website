@@ -36,7 +36,8 @@ export default function LoginForm() {
     }
 
     const nextPath = new URLSearchParams(window.location.search).get("next");
-    const safeNextPath = nextPath?.startsWith("/") ? nextPath : null;
+    const safeNextPath =
+      nextPath?.startsWith("/") && !nextPath.startsWith("//") ? nextPath : null;
 
     router.replace(safeNextPath ?? result?.redirectTo ?? "/dashboard");
     router.refresh();

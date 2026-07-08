@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Logo from "./logo";
+import { getPortalHref } from "@/lib/config/public-url";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const productsHref = getPortalHref("/products");
 
   return (
     <header className="sticky top-0 z-50 py-4">
@@ -26,7 +28,7 @@ export default function Header() {
             </a>
 
             <a
-              href="/products"
+              href={productsHref}
               className="text-sm font-medium text-slate-300 transition hover:text-white"
             >
               Products
@@ -114,7 +116,7 @@ export default function Header() {
                 </a>
 
                 <a
-                  href="/products"
+                  href={productsHref}
                   onClick={() => setMenuOpen(false)}
                   className="text-slate-300 hover:text-white"
                 >

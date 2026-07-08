@@ -2,6 +2,7 @@ import Logo from "./logo";
 import Image from "next/image";
 import FooterIllustration from "@/public/images/footer-illustration.svg";
 import { products } from "@/modules/portal/data/products";
+import { getPortalHref } from "@/lib/config/public-url";
 
 import {
   FaLinkedin,
@@ -185,7 +186,7 @@ export default function Footer() {
                   return (
                     <li key={product.name}>
                       <a
-                        href={product.href ?? `/products#${product.slug}`}
+                        href={product.href ?? getPortalHref(`/products#${product.slug}`)}
                         target={isExternal ? "_blank" : undefined}
                         rel={isExternal ? "noopener noreferrer" : undefined}
                         className="text-slate-400 hover:text-indigo-400"

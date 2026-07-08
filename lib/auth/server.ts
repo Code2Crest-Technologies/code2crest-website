@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { MembershipRole } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
+import { getPortalHref } from "@/lib/config/public-url";
 import {
   SESSION_COOKIE_NAME,
   type AuthSession,
@@ -19,7 +20,7 @@ export async function requirePortalSession() {
   const session = await getCurrentSession();
 
   if (!session) {
-    redirect("/login");
+    redirect(getPortalHref("/login"));
   }
 
   return session;
@@ -148,7 +149,7 @@ export async function requireAuth() {
   const context = await getAuthContext();
 
   if (!context) {
-    redirect("/login");
+    redirect(getPortalHref("/login"));
   }
 
   return {
@@ -161,7 +162,7 @@ export async function requireCompany() {
   const context = await getAuthContext();
 
   if (!context) {
-    redirect("/login");
+    redirect(getPortalHref("/login"));
   }
 
   return {

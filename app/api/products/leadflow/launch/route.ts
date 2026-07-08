@@ -7,6 +7,7 @@ import {
 import { randomUUID } from "crypto";
 import { getAuthContext } from "@/lib/auth/server";
 import { createLeadFlowSsoToken } from "@/lib/auth/sso";
+import { getPortalHref } from "@/lib/config/public-url";
 import { prisma } from "@/lib/db/prisma";
 
 const leadFlowCallbackUrl = "https://leadflow.code2crest.com/sso/callback";
@@ -25,7 +26,7 @@ export async function GET(request: Request) {
   const context = await getAuthContext();
 
   if (!context) {
-    const loginUrl = new URL("/login", request.url);
+    const loginUrl = new URL(getPortalHref("/login"), request.url);
     loginUrl.searchParams.set("next", "/dashboard");
     return NextResponse.redirect(loginUrl);
   }

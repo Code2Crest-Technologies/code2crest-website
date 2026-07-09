@@ -24,7 +24,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       id={product.slug}
       data-aos="fade-up"
       data-aos-delay={index * 100}
-      className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950/80 p-6 shadow-[0_20px_60px_-35px_rgba(37,99,235,0.65)] transition duration-300 hover:-translate-y-1 hover:border-blue-500/60 hover:shadow-[0_26px_70px_-35px_rgba(37,99,235,0.8)]"
+      className="group relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950/80 p-6 shadow-[0_20px_60px_-35px_rgba(37,99,235,0.65)] transition duration-300 hover:-translate-y-1 hover:border-blue-500/60 hover:shadow-[0_26px_70px_-35px_rgba(37,99,235,0.8)]"
     >
       <div className="absolute inset-0 bg-linear-to-br from-blue-600/10 via-transparent to-cyan-400/5 opacity-0 transition duration-300 group-hover:opacity-100" />
 
@@ -57,7 +57,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           href={href}
           target={isExternal ? "_blank" : undefined}
           rel={isExternal ? "noopener noreferrer" : undefined}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-blue-300 transition hover:text-white"
+          className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-blue-300 transition hover:text-white"
         >
           {product.cta}
           <FaArrowRight className="h-3.5 w-3.5 transition group-hover:translate-x-0.5" />

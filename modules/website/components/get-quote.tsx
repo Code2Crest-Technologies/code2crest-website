@@ -61,7 +61,7 @@ export default function GetQuote() {
   return (
     <section id="GetQuote" className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -mb-24 ml-20 -translate-x-1/2"
+        className="pointer-events-none absolute bottom-10 left-1/2 -z-10 -translate-x-1/2 opacity-40"
         aria-hidden="true"
       >
         <Image
@@ -73,10 +73,10 @@ export default function GetQuote() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="bg-linear-to-r from-transparent via-gray-800/50 py-12 md:py-20">
-          <div className="mx-auto max-w-2xl">
-            <div className="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 md:p-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-linear-to-r from-transparent via-gray-800/40 py-16 md:py-20 lg:py-24">
+          <div className="mx-auto max-w-3xl">
+            <div className="rounded-2xl border border-gray-700/50 bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-6 shadow-[0_24px_80px_-55px_rgba(99,102,241,0.75)] sm:p-8 md:p-12">
               <h2
                 className="pb-6 font-nacelle text-3xl font-semibold text-white md:text-4xl text-center"
                 data-aos="fade-up"
@@ -120,7 +120,7 @@ export default function GetQuote() {
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* FormSubmit Settings */}
 
                 <input
@@ -154,7 +154,7 @@ export default function GetQuote() {
                     onChange={handleChange}
                     placeholder="Your name"
                     required
-                    className="form-input w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="form-input h-12 w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -174,7 +174,7 @@ export default function GetQuote() {
                     onChange={handleChange}
                     placeholder="your@email.com"
                     required
-                    className="form-input w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="form-input h-12 w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -193,7 +193,7 @@ export default function GetQuote() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+91 XXXXX XXXXX"
-                    className="form-input w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                    className="form-input h-12 w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -213,7 +213,7 @@ export default function GetQuote() {
                     placeholder="Describe your project, requirements, and timeline..."
                     rows={5}
                     required
-                    className="form-input w-full rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none"
+                    className="form-input w-full resize-none rounded-lg border border-gray-600/50 bg-gray-800/50 px-4 py-3 text-white placeholder-gray-500 transition focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                   />
                 </div>
 
@@ -222,7 +222,7 @@ export default function GetQuote() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(99,102,241,0.75)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-20px_rgba(99,102,241,0.85)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="h-12 w-full rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-cyan-400 px-6 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(99,102,241,0.75)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-20px_rgba(99,102,241,0.85)] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading ? "Sending..." : "Send Message"}
                   </button>

@@ -6,7 +6,7 @@ export default function Contact() {
   return (
     <section id="contact" className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -mb-24 ml-20 -translate-x-1/2"
+        className="pointer-events-none absolute bottom-10 left-1/2 -z-10 -translate-x-1/2 opacity-35"
         aria-hidden="true"
       >
         <Image
@@ -18,8 +18,8 @@ export default function Contact() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="bg-linear-to-r from-transparent via-gray-800/50 py-12 md:py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="bg-linear-to-r from-transparent via-gray-800/40 py-16 md:py-20 lg:py-24">
           <div className="mx-auto max-w-3xl text-center">
             <h2
               className="pb-6 font-nacelle text-3xl font-semibold text-white md:text-4xl"
@@ -29,7 +29,7 @@ export default function Contact() {
             </h2>
 
             <p
-              className="mb-8 text-lg text-slate-300"
+              className="mx-auto mb-8 max-w-2xl text-lg leading-8 text-slate-300"
               data-aos="fade-up"
               data-aos-delay={200}
             >
@@ -47,10 +47,10 @@ export default function Contact() {
               <p>📍 Erode, Tamil Nadu, India</p>
             </div>
 
-            <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center gap-4">
+            <div className="mx-auto flex max-w-xs flex-col gap-4 sm:max-w-none sm:flex-row sm:justify-center">
               <div data-aos="fade-up" data-aos-delay={400}>
                 <a
-                  className="group inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-cyan-400 px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(99,102,241,0.75)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-20px_rgba(99,102,241,0.85)] mb-4 w-full sm:mb-0 sm:w-auto"
+                  className="group inline-flex h-12 w-full items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-cyan-400 px-7 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(99,102,241,0.75)] transition duration-300 hover:-translate-y-0.5 hover:shadow-[0_22px_55px_-20px_rgba(99,102,241,0.85)] sm:w-auto"
                   href="mailto:hello@code2crest.com"
                 >
                   <span className="relative inline-flex items-center">
@@ -64,7 +64,7 @@ export default function Contact() {
 
               <div data-aos="fade-up" data-aos-delay={600}>
                 <a
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-6 py-3 text-sm font-semibold text-green-300 transition duration-300 hover:border-green-400/60 hover:bg-green-500/20 hover:text-green-100 hover:shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)] shadow-[0_18px_45px_-25px_rgba(16,185,129,0.45)] sm:w-auto w-full"
+                  className="group inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-7 text-sm font-semibold text-green-300 shadow-[0_18px_45px_-25px_rgba(16,185,129,0.45)] transition duration-300 hover:border-green-400/60 hover:bg-green-500/20 hover:text-green-100 hover:shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)] sm:w-auto"
                   href="https://wa.me/919524899042?text=Hi%20Code2Crest%2C%20I%20would%20like%20to%20discuss%20my%20project"
                   target="_blank"
                   rel="noopener noreferrer"

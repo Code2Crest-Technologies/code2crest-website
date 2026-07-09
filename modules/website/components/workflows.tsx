@@ -34,10 +34,10 @@ export default function Workflows() {
   ];
   return (
     <section id="why-us" className="relative scroll-mt-20">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="pb-12 md:pb-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="py-16 md:py-20 lg:py-24">
           {/* Section header */}
-          <div className="mx-auto max-w-3xl pb-12 text-center md:pb-20">
+          <div className="mx-auto max-w-3xl pb-12 text-center md:pb-16">
             <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-indigo-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-indigo-200/50">
               <span className="inline-flex bg-linear-to-r from-indigo-500 to-indigo-200 bg-clip-text text-transparent">
                 Why Choose Us
@@ -52,7 +52,7 @@ export default function Workflows() {
             </p>
           </div>
           {/* Spotlight items */}
-          <Spotlight className="group mx-auto grid max-w-sm gap-6 lg:max-w-none lg:grid-cols-2">
+          <Spotlight className="group mx-auto grid max-w-sm gap-6 lg:max-w-none lg:grid-cols-2 lg:gap-8">
             {features.map((feature, index) => (
               <article
                 key={feature.title}
@@ -75,7 +75,7 @@ export default function Workflows() {
                 data-aos-delay={index * 100}
               >
                 <div className="relative z-20 h-full overflow-hidden rounded-[inherit] bg-gray-950 after:absolute after:inset-0 after:bg-linear-to-br after:from-gray-900/50 after:via-gray-800/25 after:to-gray-900/50">
-                  <div className="p-6">
+                  <div className="h-full p-6 md:p-7">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <h3 className="mb-2 font-nacelle text-lg font-semibold text-white">

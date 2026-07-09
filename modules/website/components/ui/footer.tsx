@@ -12,7 +12,7 @@ import {
 export default function Footer() {
   return (
     <footer className="relative border-t border-slate-800">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Background Illustration */}
         <div
@@ -28,10 +28,10 @@ export default function Footer() {
         </div>
 
         {/* Footer Content */}
-        <div className="py-12">
+        <div className="py-16 md:py-20">
 
           {/* Brand Section */}
-          <div className="mb-12 text-center">
+          <div className="mb-14 text-center">
             <div className="mb-4 flex justify-center">
               <Logo />
             </div>
@@ -40,7 +40,7 @@ export default function Footer() {
               Building Scalable Digital Solutions
             </p>
 
-            <div className="mb-6 flex justify-center gap-5">
+            <div className="mb-6 flex items-center justify-center gap-5">
               <a
                 href="https://www.linkedin.com/company/code2crest-technologies"
                 target="_blank"
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
+          <div className="grid gap-10 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
 
             {/* Services */}
             <div>
@@ -79,7 +79,7 @@ export default function Footer() {
                 Services
               </h3>
 
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 <li>
                   <a
                     href="/#services"
@@ -133,7 +133,7 @@ export default function Footer() {
                 Company
               </h3>
 
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 <li>
                   <a
                     href="/#why-us"
@@ -178,7 +178,7 @@ export default function Footer() {
                 Products
               </h3>
 
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 {products.map((product) => {
                   const isExternal = Boolean(product.href);
 
@@ -204,7 +204,7 @@ export default function Footer() {
                 Technologies
               </h3>
 
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 <li className="text-slate-400">React.js</li>
                 <li className="text-slate-400">Next.js</li>
                 <li className="text-slate-400">Node.js</li>
@@ -220,7 +220,7 @@ export default function Footer() {
                 Contact
               </h3>
 
-              <ul className="space-y-3 text-sm">
+              <ul className="space-y-3.5 text-sm">
                 <li>
                   <a
                     href="tel:+919524899042"
@@ -251,7 +251,7 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="mt-10 border-t border-slate-800 pt-6 text-center">
+          <div className="mt-12 border-t border-slate-800 pt-6 text-center">
             <p className="text-sm text-slate-500">
               © {new Date().getFullYear()} Code2Crest Technologies.
               All Rights Reserved.

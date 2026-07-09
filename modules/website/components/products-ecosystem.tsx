@@ -8,8 +8,8 @@ export default function ProductsEcosystem() {
     <section id="products" className="relative scroll-mt-24 overflow-hidden">
       <div className="absolute inset-x-0 top-16 -z-10 h-72 bg-blue-600/10 blur-3xl" />
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="border-t py-16 md:py-20 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="border-t py-16 md:py-20 lg:py-24 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
           <div className="grid gap-10 pb-12 lg:grid-cols-[1fr_360px] lg:items-center">
             <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:text-left">
               <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-blue-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-blue-200/50">
@@ -38,7 +38,7 @@ export default function ProductsEcosystem() {
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
             {products.map((product, index) => (
               <ProductCard key={product.name} product={product} index={index} />
             ))}

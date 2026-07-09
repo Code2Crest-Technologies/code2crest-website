@@ -6,7 +6,7 @@ export default function AboutFounder() {
   return (
     <section id="about-founder" className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -mb-24 ml-20 -translate-x-1/2"
+        className="pointer-events-none absolute bottom-12 left-1/2 -z-10 -translate-x-1/2 opacity-45"
         aria-hidden="true"
       >
         <Image
@@ -18,24 +18,24 @@ export default function AboutFounder() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="py-16 md:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="py-16 md:py-20 lg:py-24">
 
           {/* Heading */}
-          <div className="mb-16 text-center">
+          <div className="mb-12 text-center md:mb-16">
             <h2 className="font-nacelle text-3xl font-semibold text-white md:text-4xl">
               Meet the Founder
             </h2>
           </div>
 
-          <div className="grid items-center gap-12 md:grid-cols-2">
+          <div className="grid items-center gap-12 md:grid-cols-[0.95fr_1.05fr] lg:gap-16">
 
             {/* Founder Image */}
             <div
               className="flex justify-center"
               data-aos="fade-right"
             >
-              <div className="group relative h-80 w-80 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-gray-800 to-gray-900 transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.5)]">
+              <div className="group relative h-80 w-80 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-gray-800 to-gray-900 transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.5)] sm:h-96 sm:w-96 lg:h-[420px] lg:w-[420px]">
 
                 <Image
                   src={FounderImage}
@@ -75,23 +75,23 @@ export default function AboutFounder() {
               </p>
 
               {/* Quick Stats */}
-              <div className="mb-8 grid grid-cols-3 gap-4">
+              <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
 
-                <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
+                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
                   <h4 className="text-2xl font-bold text-white">6+</h4>
                   <p className="text-xs text-slate-400">
                     Years Experience
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
+                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
                   <h4 className="text-2xl font-bold text-white">20+</h4>
                   <p className="text-xs text-slate-400">
                     Projects Built
                   </p>
                 </div>
 
-                <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
+                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
                   <h4 className="text-2xl font-bold text-white">100%</h4>
                   <p className="text-xs text-slate-400">
                     Client Focus
@@ -107,7 +107,7 @@ export default function AboutFounder() {
                   Core Expertise
                 </h4>
 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                   {[
                     "React.js",
                     "Next.js",

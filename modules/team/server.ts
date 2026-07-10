@@ -93,6 +93,31 @@ export async function listTeamMembers(companyId: string) {
   });
 }
 
+export async function listPendingInvites(companyId: string) {
+  return prisma.invite.findMany({
+    where: {
+      companyId,
+      status: InviteStatus.PENDING,
+    },
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      email: true,
+      role: true,
+      status: true,
+      token: true,
+      expiresAt: true,
+      createdAt: true,
+      invitedBy: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
+  });
+}
+
 export async function createInvite(input: {
   companyId: string;
   email: string;
@@ -314,4 +339,33 @@ export async function removeMember(input: {
   });
 
   return teamSuccess(200, { membership });
+}
+
+export async function cancelInvite(input: {
+  companyId: string;
+  inviteId: string;
+  actorRole: MembershipRole;
+}) {
+  if (!canManageTeam(input.actorRole)) {
+    return teamError(403, "Only OWNER and ADMIN members can cancel invites.");
+  }
+
+  const invite = await prisma.invite.findFirst({
+    where: {
+      id: input.inviteId,
+      companyId: input.companyId,
+      status: InviteStatus.PENDING,
+    },
+  });
+
+  if (!invite) {
+    return teamError(404, "Pending invite not found.");
+  }
+
+  const cancelledInvite = await prisma.invite.update({
+    where: { id: invite.id },
+    data: { status: InviteStatus.CANCELLED },
+  });
+
+  return teamSuccess(200, { invite: cancelledInvite });
 }

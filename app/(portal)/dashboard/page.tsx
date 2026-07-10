@@ -4,8 +4,10 @@ import {
   FaBuilding,
   FaCheck,
   FaCreditCard,
+  FaGear,
   FaLayerGroup,
   FaRocket,
+  FaTriangleExclamation,
   FaUsers,
 } from "react-icons/fa6";
 import { CompanyProductStatus } from "@prisma/client";
@@ -22,10 +24,15 @@ export default async function DashboardPage() {
   const hasLeadFlowAccess =
     leadFlow?.access?.status === CompanyProductStatus.TRIAL ||
     leadFlow?.access?.status === CompanyProductStatus.ACTIVE;
+  const hasCompanyProfile =
+    Boolean(context.company.website) ||
+    Boolean(context.company.phone) ||
+    Boolean(context.company.address);
+  const trialDaysRemaining = subscription?.trialDaysRemaining ?? null;
   const stats = [
     { label: "Products", value: products.length, icon: FaLayerGroup },
     { label: "Team Members", value: context.company.members, icon: FaUsers },
-    { label: "Company", value: "Active", icon: FaBuilding },
+    { label: "Company Status", value: context.company.status ?? "ACTIVE", icon: FaBuilding },
     {
       label: "Current Plan",
       value: subscription?.subscription.plan ?? context.company.plan,
@@ -36,21 +43,30 @@ export default async function DashboardPage() {
       value: subscription?.subscription.status ?? "Preview",
       icon: FaRocket,
     },
+    {
+      label: "Trial Days",
+      value: trialDaysRemaining === null ? "N/A" : trialDaysRemaining,
+      icon: FaTriangleExclamation,
+    },
   ];
   const quickActions = [
     {
       label: "Open LeadFlow",
       href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products",
+      icon: FaRocket,
     },
-    { label: "Invite Team Member", href: "/team" },
-    { label: "Update Company Profile", href: "/company" },
-    { label: "View Subscription", href: "/subscription" },
+    { label: "Invite Team Member", href: "/team", icon: FaUsers },
+    { label: "Update Company Profile", href: "/company", icon: FaBuilding },
+    { label: "View Subscription", href: "/subscription", icon: FaCreditCard },
+    { label: "Manage Products", href: "/products", icon: FaLayerGroup },
+    { label: "Account Settings", href: "/settings", icon: FaGear },
   ];
   const checklist = [
-    { label: "Complete company profile", href: "/company" },
-    { label: "Open LeadFlow", href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products" },
-    { label: "Invite a team member", href: "/team" },
-    { label: "Review subscription", href: "/subscription" },
+    { label: "Complete company profile", href: "/company", done: hasCompanyProfile },
+    { label: "Open LeadFlow", href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products", done: hasLeadFlowAccess },
+    { label: "Invite a team member", href: "/team", done: context.company.members > 1 },
+    { label: "Review subscription", href: "/subscription", done: Boolean(subscription) },
+    { label: "Configure account security", href: "/settings", done: false },
   ];
 
   return (
@@ -107,15 +123,20 @@ export default async function DashboardPage() {
         <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70">
           <h2 className="text-lg font-semibold text-slate-950">Quick actions</h2>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            {quickActions.map((action) => (
+            {quickActions.map((action) => {
+              const Icon = action.icon;
+
+              return (
               <a
                 key={action.label}
                 href={action.href}
-                className="inline-flex h-11 items-center justify-center rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
               >
+                <Icon className="h-4 w-4" />
                 {action.label}
               </a>
-            ))}
+              );
+            })}
           </div>
         </div>
 
@@ -130,7 +151,13 @@ export default async function DashboardPage() {
                 href={item.href}
                 className="flex items-center gap-3 rounded-md border border-slate-100 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               >
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-50 text-blue-600">
+                <span
+                  className={
+                    item.done
+                      ? "flex h-6 w-6 items-center justify-center rounded-full bg-emerald-50 text-emerald-600"
+                      : "flex h-6 w-6 items-center justify-center rounded-full bg-slate-100 text-slate-400"
+                  }
+                >
                   <FaCheck className="h-3 w-3" />
                 </span>
                 {item.label}

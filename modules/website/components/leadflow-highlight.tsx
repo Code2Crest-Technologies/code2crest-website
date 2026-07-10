@@ -4,9 +4,9 @@ import { leadFlowFeatures } from "@/modules/portal/data/products";
 export default function LeadFlowHighlight() {
   return (
     <section id="leadflow" className="relative scroll-mt-24 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 md:py-20 lg:px-8 lg:py-24">
-        <div className="rounded-3xl border border-blue-500/20 bg-linear-to-br from-slate-950 via-slate-900 to-blue-950/50 p-6 shadow-[0_30px_90px_-50px_rgba(37,99,235,0.9)] md:p-10 lg:p-12">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-14">
+      <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 md:py-14 lg:px-6 lg:py-16">
+        <div className="rounded-3xl border border-blue-500/20 bg-linear-to-br from-slate-950 via-slate-900 to-blue-950/50 p-5 shadow-[0_24px_70px_-48px_rgba(37,99,235,0.75)] md:p-7 lg:p-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-10">
             <div data-aos="fade-up">
               <span className="mb-4 inline-flex rounded-full border border-blue-400/30 bg-blue-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-blue-200">
                 Featured product
@@ -23,10 +23,10 @@ export default function LeadFlowHighlight() {
                 opportunities.
               </p>
 
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="/#contact"
-                  className="inline-flex h-12 min-w-40 items-center justify-center gap-2 rounded-full bg-blue-600 px-7 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(37,99,235,0.8)] transition duration-300 hover:-translate-y-0.5 hover:bg-blue-500"
+                  className="inline-flex h-11 min-w-36 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(37,99,235,0.8)] transition duration-300 hover:-translate-y-0.5 hover:bg-blue-500"
                 >
                   Book a Demo
                   <FaArrowRight className="h-3.5 w-3.5" />
@@ -36,7 +36,7 @@ export default function LeadFlowHighlight() {
                   href="https://leadflow.code2crest.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex h-12 min-w-40 items-center justify-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-7 text-sm font-semibold text-blue-200 transition duration-300 hover:border-blue-300/60 hover:bg-blue-500/20 hover:text-white"
+                  className="inline-flex h-11 min-w-36 items-center justify-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-6 text-sm font-semibold text-blue-200 transition duration-300 hover:border-blue-300/60 hover:bg-blue-500/20 hover:text-white"
                 >
                   Open LeadFlow
                   <FaExternalLinkAlt className="h-3.5 w-3.5" />

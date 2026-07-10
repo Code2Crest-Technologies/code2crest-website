@@ -14,6 +14,17 @@ export type AuthCompany = {
   workspace: string;
   plan: string;
   members: number;
+  status?: string;
+  website?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  city?: string | null;
+  state?: string | null;
+  country?: string | null;
+  postalCode?: string | null;
+  gstin?: string | null;
+  timezone?: string | null;
+  logoUrl?: string | null;
   createdAt?: string;
   owner?: {
     name: string;

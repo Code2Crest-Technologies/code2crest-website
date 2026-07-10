@@ -67,21 +67,35 @@ model User {
 }
 
 model Company {
-  id        String   @id @default(cuid())
-  name      String
-  slug      String   @unique
-  ownerId   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  slug       String   @unique
+  ownerId    String
+  status     String   @default("ACTIVE")
+  website    String?
+  phone      String?
+  address    String?
+  city       String?
+  state      String?
+  country    String?
+  postalCode String?
+  gstin      String?
+  timezone   String?
+  logoUrl    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  owner        User             @relation("CompanyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  memberships  Membership[]
-  products     CompanyProduct[]
-  invites      Invite[]
-  subscription Subscription?
+  owner           User              @relation("CompanyOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  memberships     Membership[]
+  products        CompanyProduct[]
+  invites         Invite[]
+  subscription    Subscription?
+  billingCustomer BillingCustomer?
+  payments        Payment[]
 
   @@index([ownerId])
   @@index([slug])
+  @@index([status])
 }
 
 model Membership {
@@ -162,18 +176,79 @@ model Invite {
 }
 
 model Subscription {
-  id               String             @id @default(cuid())
-  companyId        String             @unique
-  plan             Plan
-  status           SubscriptionStatus
-  trialEndsAt      DateTime?
-  currentPeriodEnd DateTime?
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
+  id                     String             @id @default(cuid())
+  companyId              String             @unique
+  plan                   Plan
+  status                 SubscriptionStatus
+  trialEndsAt            DateTime?
+  provider               String?
+  providerSubscriptionId String?
+  billingCycle           String             @default("monthly")
+  cancelAtPeriodEnd      Boolean            @default(false)
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
 
-  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  company  Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  payments Payment[]
 
   @@index([companyId])
   @@index([status])
   @@index([plan])
+  @@index([providerSubscriptionId])
+}
+
+model BillingCustomer {
+  id                 String   @id @default(cuid())
+  companyId          String   @unique
+  provider           String
+  providerCustomerId String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  company Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerCustomerId])
+  @@index([provider])
+}
+
+model Payment {
+  id                 String    @id @default(cuid())
+  companyId          String
+  subscriptionId     String?
+  provider           String
+  providerPaymentId  String?
+  providerOrderId    String?
+  amount             Int
+  currency           String
+  status             String
+  paidAt             DateTime?
+  metadata           Json?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  company      Company       @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  subscription Subscription? @relation(fields: [subscriptionId], references: [id], onDelete: SetNull)
+
+  @@index([companyId])
+  @@index([subscriptionId])
+  @@index([provider])
+  @@index([status])
+  @@index([providerOrderId])
+  @@index([providerPaymentId])
+}
+
+model BillingEvent {
+  id              String    @id @default(cuid())
+  provider        String
+  providerEventId String    @unique
+  eventType       String
+  payload         Json
+  processedAt     DateTime?
+  createdAt       DateTime  @default(now())
+
+  @@index([provider])
+  @@index([eventType])
+  @@index([processedAt])
 }

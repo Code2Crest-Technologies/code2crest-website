@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/auth/server";
-import { listTeamMembers } from "@/modules/team/server";
+import { listPendingInvites, listTeamMembers } from "@/modules/team/server";
 
-export async function GET() {
+export async function GET(request: Request) {
   const context = await getAuthContext();
 
   if (!context) {
@@ -10,10 +10,17 @@ export async function GET() {
   }
 
   const members = await listTeamMembers(context.companyId);
+  const invites = await listPendingInvites(context.companyId);
+  const origin = new URL(request.url).origin;
 
   return NextResponse.json({
     companyId: context.companyId,
+    currentUserId: context.user.id,
     currentUserRole: context.membershipRole,
     members,
+    invites: invites.map((invite) => ({
+      ...invite,
+      inviteLink: `${origin}/register?inviteToken=${invite.token}`,
+    })),
   });
 }

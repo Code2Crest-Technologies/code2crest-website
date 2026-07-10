@@ -72,6 +72,7 @@ export async function POST(request: Request) {
         trialEndsAt: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
       },
     });
+    const trialStartedAt = new Date();
     const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
     await tx.subscription.create({
       data: {
@@ -79,6 +80,7 @@ export async function POST(request: Request) {
         plan: "TRIAL",
         status: "TRIALING",
         trialEndsAt,
+        currentPeriodStart: trialStartedAt,
         currentPeriodEnd: trialEndsAt,
       },
     });

@@ -1,26 +1,15 @@
 import { Plan, SubscriptionStatus } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
+import { portalPlanConfig } from "@/modules/portal/data/plans";
 
 export type PlanLimitKey = "users" | "contacts";
 export type PlanLimitValue = number | "unlimited";
 
 export const PLAN_LIMITS = {
-  [Plan.TRIAL]: {
-    users: 2,
-    contacts: 100,
-  },
-  [Plan.STARTER]: {
-    users: 3,
-    contacts: 500,
-  },
-  [Plan.GROWTH]: {
-    users: 10,
-    contacts: 5000,
-  },
-  [Plan.BUSINESS]: {
-    users: "unlimited",
-    contacts: "unlimited",
-  },
+  [Plan.TRIAL]: portalPlanConfig.TRIAL.limits,
+  [Plan.STARTER]: portalPlanConfig.STARTER.limits,
+  [Plan.GROWTH]: portalPlanConfig.GROWTH.limits,
+  [Plan.BUSINESS]: portalPlanConfig.BUSINESS.limits,
 } satisfies Record<Plan, Record<PlanLimitKey, PlanLimitValue>>;
 
 function subscriptionError(status: number, message: string) {
@@ -61,6 +50,7 @@ async function getUsage(companyId: string) {
 }
 
 export async function createTrialSubscription(companyId: string) {
+  const trialStartedAt = new Date();
   const trialEndsAt = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000);
 
   return prisma.subscription.upsert({
@@ -71,6 +61,7 @@ export async function createTrialSubscription(companyId: string) {
       plan: Plan.TRIAL,
       status: SubscriptionStatus.TRIALING,
       trialEndsAt,
+      currentPeriodStart: trialStartedAt,
       currentPeriodEnd: trialEndsAt,
     },
   });

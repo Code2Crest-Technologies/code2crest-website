@@ -32,6 +32,18 @@ function getProductDomain(productKey: string) {
   return `${productKey}.code2crest.com`;
 }
 
+function getProductCategory(productKey: string) {
+  const categories: Record<string, string> = {
+    leadflow: "CRM",
+    projectflow: "Projects",
+    hrflow: "People Ops",
+    supportflow: "Support",
+    inventoryflow: "Operations",
+  };
+
+  return categories[productKey] ?? "Business Tool";
+}
+
 export default function ProductGrid({ compact = false, products }: ProductGridProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -82,6 +94,21 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
               {product.description}
             </p>
 
+            <dl className="mt-5 grid gap-2 text-xs text-slate-500">
+              <div className="flex items-center justify-between gap-3">
+                <dt className="font-semibold text-slate-600">Category</dt>
+                <dd>{getProductCategory(product.key)}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <dt className="font-semibold text-slate-600">Company access</dt>
+                <dd>{access ? formatAccessStatus(access.status) : "Not enabled"}</dd>
+              </div>
+              <div className="flex items-center justify-between gap-3">
+                <dt className="font-semibold text-slate-600">Domain</dt>
+                <dd>{getProductDomain(product.key)}</dd>
+              </div>
+            </dl>
+
             {hasAccess && launchUrl ? (
               <a
                 href={launchUrl}
@@ -98,7 +125,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
                 disabled
                 className="mt-6 inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-slate-400"
               >
-                Coming Soon
+                {isAvailable ? "Access Required" : "Coming Soon"}
               </button>
             )}
 

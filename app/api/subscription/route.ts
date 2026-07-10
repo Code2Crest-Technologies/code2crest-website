@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/auth/server";
 import { getCompanySubscription } from "@/modules/subscription/server";
+import { getCompanyProductAccess } from "@/modules/products/server";
 
 export async function GET() {
   const context = await getAuthContext();
@@ -10,6 +11,7 @@ export async function GET() {
   }
 
   const subscription = await getCompanySubscription(context.companyId);
+  const products = await getCompanyProductAccess(context.companyId);
 
   if (!subscription) {
     return NextResponse.json(
@@ -22,10 +24,19 @@ export async function GET() {
     companyId: context.companyId,
     plan: subscription.subscription.plan,
     status: subscription.subscription.status,
+    billingCycle: subscription.subscription.billingCycle,
     trialEndsAt: subscription.subscription.trialEndsAt,
+    currentPeriodStart: subscription.subscription.currentPeriodStart,
     currentPeriodEnd: subscription.subscription.currentPeriodEnd,
+    cancelAtPeriodEnd: subscription.subscription.cancelAtPeriodEnd,
     limits: subscription.limits,
     usage: subscription.usage,
+    productAccess: products.map((product) => ({
+      key: product.key,
+      name: product.name,
+      status: product.status,
+      accessStatus: product.access?.status ?? null,
+    })),
     trialDaysRemaining: subscription.trialDaysRemaining,
   });
 }

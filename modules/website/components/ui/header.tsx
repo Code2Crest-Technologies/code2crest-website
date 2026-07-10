@@ -12,9 +12,9 @@ export default function Header() {
   const hubLoginHref = getPortalHref("/login");
 
   return (
-    <header className="sticky top-0 z-50 py-3 md:py-4">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative flex h-20 items-center justify-between gap-5 rounded-2xl border border-slate-800 bg-slate-950/95 px-5 shadow-lg shadow-slate-950/20 backdrop-blur-xl sm:px-6">
+    <header className="sticky top-0 z-50 py-2 md:py-3">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
+        <div className="relative flex h-16 items-center justify-between gap-4 rounded-2xl border border-slate-800 bg-slate-950/95 px-4 shadow-lg shadow-slate-950/20 backdrop-blur-xl sm:px-5">
 
           {/* Logo */}
           <div className="flex items-center">
@@ -22,7 +22,7 @@ export default function Header() {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden items-center gap-9 md:flex">
+          <nav className="hidden items-center gap-7 md:flex">
             <a
               href="/#services"
               className="text-sm font-medium text-slate-300 transition hover:text-white"
@@ -61,14 +61,14 @@ export default function Header() {
           {/* Desktop CTA */}
           <a
             href="/#GetQuote"
-            className="hidden h-11 items-center justify-center rounded-lg bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-700 md:inline-flex"
+            className="hidden h-10 items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700 md:inline-flex"
           >
             Get Quote
           </a>
 
           <a
             href={hubLoginHref}
-            className="hidden h-11 items-center justify-center rounded-lg border border-slate-700 px-5 text-sm font-semibold text-slate-200 transition hover:border-blue-500 hover:text-white md:inline-flex"
+            className="hidden h-10 items-center justify-center rounded-lg border border-slate-700 px-4 text-sm font-semibold text-slate-200 transition hover:border-blue-500 hover:text-white md:inline-flex"
           >
             Hub Login
           </a>
@@ -113,7 +113,7 @@ export default function Header() {
 
           {/* Mobile Menu */}
           {menuOpen && (
-            <div className="absolute left-0 top-24 w-full rounded-2xl border border-slate-800 bg-slate-950 p-6 shadow-xl md:hidden">
+            <div className="absolute left-0 top-20 w-full rounded-2xl border border-slate-800 bg-slate-950 p-5 shadow-xl md:hidden">
 
               <nav className="flex flex-col gap-5">
 

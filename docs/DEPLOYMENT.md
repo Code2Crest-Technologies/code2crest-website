@@ -13,10 +13,35 @@ SSO_SECRET="use-a-random-32-plus-character-sso-secret"
 NEXT_PUBLIC_APP_URL="https://app.code2crest.com"
 NEXT_PUBLIC_MARKETING_URL="https://www.code2crest.com"
 NEXT_PUBLIC_LEADFLOW_URL="https://leadflow.code2crest.com"
+APP_URL="https://app.code2crest.com"
 ```
 
 `AUTH_SECRET` signs the httpOnly portal session cookie. Use a strong random value and rotate carefully.
 `SSO_SECRET` signs short-lived LeadFlow launch tokens and must match the verifier configured in LeadFlow.
+
+## Razorpay Billing Foundation
+
+Online checkout is intentionally disabled for beta unless all Razorpay keys and server-side plan IDs are configured:
+
+```bash
+RAZORPAY_KEY_ID=""
+RAZORPAY_KEY_SECRET=""
+RAZORPAY_WEBHOOK_SECRET=""
+NEXT_PUBLIC_RAZORPAY_KEY_ID=""
+RAZORPAY_PLAN_STARTER=""
+RAZORPAY_PLAN_GROWTH=""
+RAZORPAY_PLAN_BUSINESS=""
+```
+
+Billing routes exist under:
+
+- `POST /api/billing/checkout`
+- `POST /api/billing/verify`
+- `POST /api/billing/webhook`
+- `GET /api/billing/history`
+- `POST /api/billing/cancel`
+
+Keep Razorpay secrets server-side only. Webhooks verify the raw request body with `RAZORPAY_WEBHOOK_SECRET`; subscription state must not be activated from browser callback data alone.
 
 ## Vercel Frontend Deployment
 
@@ -72,13 +97,7 @@ Generate Prisma Client:
 npx prisma generate
 ```
 
-Push schema during early MVP environments:
-
-```bash
-npx prisma db push
-```
-
-For production migration workflows, prefer Prisma migrations:
+Apply production migrations:
 
 ```bash
 npx prisma migrate deploy

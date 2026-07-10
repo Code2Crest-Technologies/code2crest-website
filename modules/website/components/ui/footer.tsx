@@ -12,7 +12,7 @@ import {
 export default function Footer() {
   return (
     <footer className="relative border-t border-slate-800">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
 
         {/* Background Illustration */}
         <div
@@ -28,10 +28,10 @@ export default function Footer() {
         </div>
 
         {/* Footer Content */}
-        <div className="py-16 md:py-20">
+        <div className="py-10 md:py-12">
 
           {/* Brand Section */}
-          <div className="mb-14 text-center">
+          <div className="mb-10 text-center">
             <div className="mb-4 flex justify-center">
               <Logo />
             </div>
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          <div className="grid gap-10 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
+          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
 
             {/* Services */}
             <div>
@@ -251,7 +251,7 @@ export default function Footer() {
           </div>
 
           {/* Copyright */}
-          <div className="mt-12 border-t border-slate-800 pt-6 text-center">
+          <div className="mt-10 border-t border-slate-800 pt-5 text-center">
             <p className="text-sm text-slate-500">
               © {new Date().getFullYear()} Code2Crest Technologies.
               All Rights Reserved.

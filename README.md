@@ -33,6 +33,8 @@ The project currently runs as one Next.js App Router application containing the 
 - Product access system
 - Team invite foundation
 - Subscription foundation
+- Razorpay-ready billing foundation with beta-safe disabled checkout
+- Editable company profile and account profile settings
 - LeadFlow permission layer
 - SEO metadata, sitemap, robots, Open Graph, and web manifest
 

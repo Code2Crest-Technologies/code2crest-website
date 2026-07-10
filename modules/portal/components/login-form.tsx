@@ -3,6 +3,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaEnvelope } from "react-icons/fa6";
+import {
+  FormError,
+  FormField,
+  LoadingButton,
+  PasswordField,
+} from "@/modules/portal/components/auth-ui";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -31,7 +38,11 @@ export default function LoginForm() {
     setIsSubmitting(false);
 
     if (!response.ok) {
-      setError(result?.message ?? "Unable to login.");
+      setError(
+        response.status === 401
+          ? "The email or password is incorrect."
+          : "We could not sign you in. Please try again.",
+      );
       return;
     }
 
@@ -44,41 +55,57 @@ export default function LoginForm() {
   }
 
   return (
-    <form className="space-y-5 p-8 sm:p-10" onSubmit={handleSubmit}>
+    <form className="space-y-5 p-6 sm:p-8" onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="email" className="text-sm font-semibold text-slate-700">
-          Email
-        </label>
-        <input
+        <p className="text-sm font-semibold text-blue-600">Code2Crest Hub</p>
+        <h2 className="mt-2 text-2xl font-semibold text-slate-950">
+          Sign in to your workspace
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          Access your products, team, subscription, and business tools.
+        </p>
+      </div>
+
+      <FormField
           id="email"
           name="email"
+        label="Email"
           type="email"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
+        placeholder="name@company.com"
+        autoComplete="email"
+        icon={FaEnvelope}
+        required
+      />
+      <PasswordField
+        id="password"
+        name="password"
+        label="Password"
+        placeholder="Enter your password"
+        autoComplete="current-password"
+        required
+      />
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-slate-500">Protected with secure sessions.</span>
+        <Link
+          href="mailto:hello@code2crest.com?subject=Code2Crest%20Hub%20Password%20Help"
+          className="font-semibold text-blue-600 transition hover:text-blue-700"
+        >
+          Forgot password?
+        </Link>
       </div>
-      <div>
-        <label htmlFor="password" className="text-sm font-semibold text-slate-700">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
-      </div>
-      {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
-      >
-        {isSubmitting ? "Logging in..." : "Login"}
-      </button>
+      <FormError message={error} />
+      <LoadingButton isLoading={isSubmitting} loadingText="Signing in...">
+        Login
+      </LoadingButton>
       <p className="text-center text-sm text-slate-600">
         New to Code2Crest?{" "}
         <Link href="/register" className="font-semibold text-blue-600">
           Create workspace
+        </Link>
+      </p>
+      <p className="text-center text-sm">
+        <Link href="https://www.code2crest.com" className="font-semibold text-slate-600">
+          Back to website
         </Link>
       </p>
     </form>

@@ -49,17 +49,17 @@ export default function ConnectPage() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="py-16 md:py-24">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
+        <div className="py-12 md:py-16">
           {/* Header with Logo */}
-          <div className="mb-16 text-center" data-aos="fade-up">
-            <div className="mb-6 flex justify-center">
+          <div className="mb-10 text-center" data-aos="fade-up">
+            <div className="mb-5 flex justify-center">
               <Logo />
             </div>
             <h1 className="pb-4 font-nacelle text-4xl font-semibold text-white md:text-5xl">
               Let's Connect
             </h1>
-            <p className="mx-auto max-w-2xl text-lg text-slate-300">
+            <p className="mx-auto max-w-2xl text-base leading-7 text-slate-300 md:text-lg">
               Ready to start your next project? Get in touch with Code2Crest
               Technologies today.
             </p>
@@ -69,7 +69,7 @@ export default function ConnectPage() {
           <div className="grid gap-8 lg:grid-cols-3">
             {/* Founder Card */}
             <div
-              className="group relative lg:col-span-3 rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-8 backdrop-blur-sm transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)]"
+              className="group relative rounded-2xl border border-indigo-500/30 bg-gradient-to-br from-gray-800/50 to-gray-900/50 p-6 backdrop-blur-sm transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_30px_-5px_rgba(99,102,241,0.3)] lg:col-span-3"
               data-aos="fade-up"
             >
               <div className="flex flex-col gap-6 md:flex-row md:items-center">
@@ -77,7 +77,7 @@ export default function ConnectPage() {
                 <div className="relative mx-auto shrink-0 md:mx-0">
   <div className="absolute inset-0 rounded-full bg-indigo-500/20 blur-xl transition duration-300 group-hover:bg-indigo-500/30" />
 
-  <div className="relative h-50 w-50 overflow-hidden rounded-full border-2 border-indigo-500/30">
+  <div className="relative h-48 w-48 overflow-hidden rounded-full border-2 border-indigo-500/30">
     <Image
       src={FounderImage}
       alt="Barath Rahav"
@@ -225,25 +225,25 @@ export default function ConnectPage() {
 
           {/* CTA Section */}
           <div
-            className="mx-auto mt-20 max-w-3xl text-center"
+            className="mx-auto mt-12 max-w-3xl text-center"
             data-aos="fade-up"
           >
-            <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 p-12 backdrop-blur-sm">
-              <h2 className="font-nacelle text-3xl font-semibold text-white mb-4">
+            <div className="rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 via-purple-500/10 to-cyan-500/10 p-6 backdrop-blur-sm md:p-8">
+              <h2 className="mb-4 font-nacelle text-2xl font-semibold text-white md:text-3xl">
                 Ready to Launch Your Business Online?
               </h2>
-              <p className="text-slate-300 mb-8 text-lg">
+              <p className="mb-6 text-base leading-7 text-slate-300 md:text-lg">
                 Book a free consultation with me today. We'll discuss your
                 project requirements, timeline, and how I can help bring your
                 vision to life.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col justify-center gap-3 sm:flex-row">
                 <a
                   href="https://wa.me/919524899042?text=Hi%20Code2Crest%2C%20I%20would%20like%20to%20book%20a%20free%20consultation"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-6 py-3 text-sm font-semibold text-green-300 transition duration-300 hover:border-green-400/60 hover:bg-green-500/20 hover:text-green-100 hover:shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)] shadow-[0_18px_45px_-25px_rgba(16,185,129,0.45)] sm:w-auto w-full"
+                  className="group inline-flex h-11 w-full items-center justify-center gap-2 rounded-full border border-green-500/40 bg-green-500/10 px-6 text-sm font-semibold text-green-300 shadow-[0_18px_45px_-25px_rgba(16,185,129,0.45)] transition duration-300 hover:border-green-400/60 hover:bg-green-500/20 hover:text-green-100 hover:shadow-[0_0_20px_-5px_rgba(34,197,94,0.5)] sm:w-auto"
                 >
                   <FaWhatsapp className="h-5 w-5" />
                   <span>Book Free Consultation on WhatsApp</span>
@@ -251,7 +251,7 @@ export default function ConnectPage() {
 
                 <a
                   href="mailto:hello@code2crest.com?subject=Free%20Consultation%20Request"
-                  className="group inline-flex items-center justify-center gap-2 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-8 py-4 text-sm font-semibold text-indigo-300 transition duration-300 hover:border-indigo-400/60 hover:bg-indigo-500/20 hover:text-indigo-100"
+                  className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-indigo-500/40 bg-indigo-500/10 px-6 text-sm font-semibold text-indigo-300 transition duration-300 hover:border-indigo-400/60 hover:bg-indigo-500/20 hover:text-indigo-100"
                 >
                   <FaEnvelope className="h-5 w-5" />
                   <span>Email for Consultation</span>
@@ -261,7 +261,7 @@ export default function ConnectPage() {
           </div>
 
           {/* Additional Info */}
-          <div className="mt-16 grid gap-8 text-center md:grid-cols-3">
+          <div className="mt-10 grid gap-6 text-center md:grid-cols-3">
             <div
               data-aos="fade-up"
               className="rounded-xl border border-slate-800 bg-slate-900/30 p-6"

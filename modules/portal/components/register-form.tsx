@@ -3,15 +3,35 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaBuilding, FaEnvelope, FaUser } from "react-icons/fa6";
+import {
+  FormError,
+  FormField,
+  LoadingButton,
+  PasswordField,
+  PasswordStrength,
+} from "@/modules/portal/components/auth-ui";
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [password, setPassword] = useState("");
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
+
+    if (
+      password.length < 8 ||
+      !/[A-Z]/.test(password) ||
+      !/[a-z]/.test(password) ||
+      !/\d/.test(password)
+    ) {
+      setError("Use at least 8 characters with uppercase, lowercase, and a number.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
@@ -22,7 +42,7 @@ export default function RegisterForm() {
         name: formData.get("name"),
         companyName: formData.get("companyName"),
         email: formData.get("email"),
-        password: formData.get("password"),
+        password,
       }),
     });
     const result = (await response.json().catch(() => null)) as {
@@ -33,7 +53,11 @@ export default function RegisterForm() {
     setIsSubmitting(false);
 
     if (!response.ok) {
-      setError(result?.message ?? "Unable to register.");
+      setError(
+        response.status === 409
+          ? "An account already exists for this email."
+          : "We could not create your workspace. Please check the details and try again.",
+      );
       return;
     }
 
@@ -42,67 +66,69 @@ export default function RegisterForm() {
   }
 
   return (
-    <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+    <form className="space-y-5 p-6 sm:p-8" onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="name" className="text-sm font-semibold text-slate-700">
-          Full Name
-        </label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          placeholder="Barath Rahav"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
+        <p className="text-sm font-semibold text-blue-600">Code2Crest Hub</p>
+        <h2 className="mt-2 text-2xl font-semibold text-slate-950">
+          Create workspace
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-slate-500">
+          Your company, owner membership, trial subscription, and LeadFlow access
+          are created together.
+        </p>
       </div>
-      <div>
-        <label htmlFor="companyName" className="text-sm font-semibold text-slate-700">
-          Company
-        </label>
-        <input
-          id="companyName"
-          name="companyName"
-          type="text"
-          placeholder="Code2Crest Technologies"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
-      </div>
-      <div>
-        <label htmlFor="email" className="text-sm font-semibold text-slate-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="you@company.com"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="text-sm font-semibold text-slate-700">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Create a secure password"
-          className="mt-2 w-full rounded-md border-slate-300 text-slate-950 shadow-sm focus:border-blue-600 focus:ring-blue-600"
-        />
-      </div>
-      {error ? <p className="text-sm font-medium text-red-600">{error}</p> : null}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="inline-flex h-11 w-full items-center justify-center rounded-md bg-blue-600 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
-      >
-        {isSubmitting ? "Creating..." : "Register"}
-      </button>
+      <FormField
+        id="name"
+        name="name"
+        label="Full Name"
+        placeholder="Enter your full name"
+        autoComplete="name"
+        icon={FaUser}
+        required
+      />
+      <FormField
+        id="companyName"
+        name="companyName"
+        label="Company"
+        placeholder="Enter your company name"
+        autoComplete="organization"
+        icon={FaBuilding}
+        required
+      />
+      <FormField
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        placeholder="name@company.com"
+        autoComplete="email"
+        icon={FaEnvelope}
+        required
+      />
+      <PasswordField
+        id="password"
+        name="password"
+        label="Password"
+        placeholder="Create a secure password"
+        autoComplete="new-password"
+        value={password}
+        onChange={setPassword}
+        required
+      />
+      <PasswordStrength password={password} />
+      <FormError message={error} />
+      <LoadingButton isLoading={isSubmitting} loadingText="Creating workspace...">
+        Register
+      </LoadingButton>
       <p className="text-center text-sm text-slate-600">
         Already have an account?{" "}
         <Link href="/login" className="font-semibold text-blue-600">
           Login
+        </Link>
+      </p>
+      <p className="text-center text-sm">
+        <Link href="https://www.code2crest.com" className="font-semibold text-slate-600">
+          Back to website
         </Link>
       </p>
     </form>

@@ -49,7 +49,7 @@ export default function Portfolio() {
     <section id="portfolio" className="relative scroll-mt-24">
       {/* Background Effects */}
       <div
-        className="pointer-events-none absolute left-1/2 top-16 -z-10 -translate-x-1/2 opacity-60"
+        className="pointer-events-none absolute left-1/2 top-16 -z-10 -translate-x-1/2 opacity-25"
         aria-hidden="true"
       >
         <Image
@@ -61,7 +61,7 @@ export default function Portfolio() {
       </div>
 
       <div
-        className="pointer-events-none absolute bottom-20 left-1/2 -z-10 -translate-x-[120%] opacity-30"
+        className="pointer-events-none absolute bottom-20 left-1/2 -z-10 -translate-x-[120%] opacity-15"
         aria-hidden="true"
       >
         <Image
@@ -72,11 +72,11 @@ export default function Portfolio() {
         />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="border-t py-16 md:py-20 lg:py-24 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
+        <div className="border-t py-12 md:py-16 lg:py-20 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
 
           {/* Section Heading */}
-          <div className="mx-auto max-w-3xl pb-12 text-center md:pb-16">
+          <div className="mx-auto max-w-3xl pb-8 text-center md:pb-10">
             <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-indigo-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-indigo-200/50">
               <span className="bg-linear-to-r from-indigo-500 to-cyan-400 bg-clip-text text-transparent">
                 Project Showcase
@@ -94,14 +94,14 @@ export default function Portfolio() {
           </div>
 
           {/* Portfolio Grid */}
-          <div className="grid gap-6 md:grid-cols-2 lg:gap-8">
+          <div className="grid gap-6 md:grid-cols-2 lg:gap-6">
 
             {projects.map((project, idx) => (
               <article
                 key={project.id}
                 data-aos="fade-up"
                 data-aos-delay={idx * 100}
-                className="group relative flex h-full min-h-[300px] overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900/80 to-slate-950/80 p-6 transition-all duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_35px_-8px_rgba(99,102,241,0.45)]"
+                className="group relative flex h-full min-h-[240px] overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900/80 to-slate-950/80 p-5 transition-all duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_35px_-8px_rgba(99,102,241,0.45)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-cyan-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 

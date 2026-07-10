@@ -24,12 +24,12 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
       id={product.slug}
       data-aos="fade-up"
       data-aos-delay={index * 100}
-      className="group relative flex h-full min-h-[320px] flex-col overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950/80 p-6 shadow-[0_20px_60px_-35px_rgba(37,99,235,0.65)] transition duration-300 hover:-translate-y-1 hover:border-blue-500/60 hover:shadow-[0_26px_70px_-35px_rgba(37,99,235,0.8)]"
+      className="group relative flex h-full min-h-[240px] flex-col overflow-hidden rounded-2xl border border-indigo-500/20 bg-slate-950/80 p-5 shadow-[0_18px_48px_-32px_rgba(37,99,235,0.55)] transition duration-300 hover:-translate-y-1 hover:border-blue-500/60 hover:shadow-[0_22px_56px_-32px_rgba(37,99,235,0.72)]"
     >
       <div className="absolute inset-0 bg-linear-to-br from-blue-600/10 via-transparent to-cyan-400/5 opacity-0 transition duration-300 group-hover:opacity-100" />
 
       <div className="relative z-10 flex h-full flex-col">
-        <div className="mb-5 flex items-start justify-between gap-4">
+        <div className="mb-4 flex items-start justify-between gap-4">
           <div className="flex h-14 w-14 items-center justify-center rounded-xl border border-blue-400/20 bg-blue-500/10">
             <Icon className="h-6 w-6 text-blue-300" />
           </div>
@@ -49,7 +49,7 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
           {product.name}
         </h3>
 
-        <p className="mb-6 flex-1 text-sm leading-relaxed text-slate-300">
+        <p className="mb-5 flex-1 text-sm leading-relaxed text-slate-300">
           {product.description}
         </p>
 

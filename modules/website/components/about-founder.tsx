@@ -6,7 +6,7 @@ export default function AboutFounder() {
   return (
     <section id="about-founder" className="relative overflow-hidden">
       <div
-        className="pointer-events-none absolute bottom-12 left-1/2 -z-10 -translate-x-1/2 opacity-45"
+        className="pointer-events-none absolute bottom-8 left-1/2 -z-10 -translate-x-1/2 opacity-25"
         aria-hidden="true"
       >
         <Image
@@ -18,24 +18,24 @@ export default function AboutFounder() {
         />
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="py-16 md:py-20 lg:py-24">
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
+        <div className="py-12 md:py-16 lg:py-20">
 
           {/* Heading */}
-          <div className="mb-12 text-center md:mb-16">
+          <div className="mb-8 text-center md:mb-10">
             <h2 className="font-nacelle text-3xl font-semibold text-white md:text-4xl">
               Meet the Founder
             </h2>
           </div>
 
-          <div className="grid items-center gap-12 md:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+          <div className="grid items-center gap-8 md:grid-cols-[0.95fr_1.05fr] lg:gap-12">
 
             {/* Founder Image */}
             <div
               className="flex justify-center"
               data-aos="fade-right"
             >
-              <div className="group relative h-80 w-80 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-gray-800 to-gray-900 transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.5)] sm:h-96 sm:w-96 lg:h-[420px] lg:w-[420px]">
+              <div className="group relative h-72 w-72 overflow-hidden rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-gray-800 to-gray-900 transition duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.5)] sm:h-80 sm:w-80 lg:h-96 lg:w-96">
 
                 <Image
                   src={FounderImage}
@@ -56,18 +56,18 @@ export default function AboutFounder() {
                 Hi, I'm Barath Rahav
               </h3>
 
-              <p className="mb-6 text-lg font-medium text-indigo-400">
+              <p className="mb-4 text-lg font-medium text-indigo-400">
                 Founder & Full-Stack Developer
               </p>
 
-              <p className="mb-6 leading-relaxed text-indigo-200/75">
-                With over 5 years of experience in full-stack development,
+              <p className="mb-4 leading-relaxed text-indigo-200/75">
+                With over 7+ years of experience in full-stack development,
                 I help startups and businesses build scalable websites,
                 e-commerce platforms, and custom software solutions using
                 modern technologies.
               </p>
 
-              <p className="mb-8 leading-relaxed text-indigo-200/75">
+              <p className="mb-6 leading-relaxed text-indigo-200/75">
                 My expertise includes React.js, Next.js, Node.js,
                 MongoDB, TypeScript, and modern cloud-based solutions.
                 I focus on delivering fast, scalable, and user-friendly
@@ -75,17 +75,17 @@ export default function AboutFounder() {
               </p>
 
               {/* Quick Stats */}
-              <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
 
                 <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                  <h4 className="text-2xl font-bold text-white">6+</h4>
+                  <h4 className="text-2xl font-bold text-white">7+</h4>
                   <p className="text-xs text-slate-400">
                     Years Experience
                   </p>
                 </div>
 
                 <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                  <h4 className="text-2xl font-bold text-white">20+</h4>
+                  <h4 className="text-2xl font-bold text-white">30+</h4>
                   <p className="text-xs text-slate-400">
                     Projects Built
                   </p>
@@ -107,7 +107,7 @@ export default function AboutFounder() {
                   Core Expertise
                 </h4>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2.5">
                   {[
                     "React.js",
                     "Next.js",
@@ -124,7 +124,7 @@ export default function AboutFounder() {
                   ].map((skill) => (
                     <span
                       key={skill}
-                      className="rounded-full border border-indigo-500/30 bg-indigo-500/10 px-4 py-2 text-sm text-indigo-300 transition duration-300 hover:border-indigo-400/60 hover:bg-indigo-500/20"
+                      className="rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1.5 text-sm text-indigo-300 transition duration-300 hover:border-indigo-400/60 hover:bg-indigo-500/20"
                     >
                       {skill}
                     </span>

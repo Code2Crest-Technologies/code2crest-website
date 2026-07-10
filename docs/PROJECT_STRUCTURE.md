@@ -30,6 +30,7 @@ This project is one Next.js App Router platform. Routes stay in `app/`, while re
 - `modules/leadflow/` - LeadFlow permission map and guarded API helper functions.
 - `modules/products/` - Product catalog and company product access helpers.
 - `modules/subscription/` - Plan limits, subscription lookup, active subscription checks, and usage helpers.
+- `modules/subscription/billing.ts` - Razorpay-ready checkout, webhook, billing history, and cancellation scaffolding.
 - `modules/team/` - Membership, invite, role update, and member removal logic.
 - `modules/auth/` and `modules/company/` - Reserved for future domain expansion.
 

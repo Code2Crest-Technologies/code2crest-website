@@ -43,6 +43,15 @@ export default function ProductsEcosystem() {
               <ProductCard key={product.name} product={product} index={index} />
             ))}
           </div>
+
+          <div className="mt-8 text-center">
+            <a
+              href="/products"
+              className="inline-flex h-11 items-center justify-center rounded-full border border-blue-400/30 bg-blue-500/10 px-6 text-sm font-semibold text-blue-200 transition hover:border-blue-300/60 hover:bg-blue-500/20 hover:text-white"
+            >
+              Explore Code2Crest software products
+            </a>
+          </div>
         </div>
       </div>
     </section>

@@ -13,13 +13,18 @@ const allowedOrigins = new Set([
   "http://127.0.0.1:5173",
 ]);
 
-const protectedRoutes = [
+const protectedPortalRoutes = [
   "/dashboard",
-  "/products",
   "/company",
   "/team",
   "/subscription",
   "/settings",
+  "/admin",
+];
+
+const portalVisibleRoutes = [
+  ...protectedPortalRoutes,
+  "/products",
 ];
 
 const rateLimitStore = new Map<string, { count: number; resetAt: number }>();
@@ -44,6 +49,10 @@ function isLocalHostname(hostname: string) {
 
 function isMarketingHostname(hostname: string) {
   return hostname === "www.code2crest.com" || hostname === "code2crest.com";
+}
+
+function isPortalHostname(hostname: string) {
+  return hostname === "app.code2crest.com";
 }
 
 function getPortalBaseUrl() {
@@ -73,10 +82,38 @@ function isPortalAuthRoute(pathname: string) {
   return pathname === "/login" || pathname === "/register";
 }
 
-function isProtectedRoute(pathname: string) {
-  return protectedRoutes.some(
+function matchesRoute(pathname: string, routes: string[]) {
+  return routes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
   );
+}
+
+function isInternalPortalRoute(pathname: string) {
+  return pathname === "/hub" || pathname.startsWith("/hub/");
+}
+
+function isPortalProductsRoute(pathname: string) {
+  return pathname === "/products" || pathname.startsWith("/products/");
+}
+
+function getInternalPortalPath(pathname: string) {
+  if (!isPortalProductsRoute(pathname)) {
+    return pathname;
+  }
+
+  return pathname.replace(/^\/products/, "/hub/products");
+}
+
+function isProtectedRoute(pathname: string, hostname: string) {
+  if (isInternalPortalRoute(pathname)) {
+    return true;
+  }
+
+  if (isPortalHostname(hostname) || hostname === "leadflow.code2crest.com") {
+    return matchesRoute(pathname, portalVisibleRoutes);
+  }
+
+  return matchesRoute(pathname, protectedPortalRoutes);
 }
 
 function getClientIp(request: NextRequest) {
@@ -174,7 +211,7 @@ export async function middleware(request: NextRequest) {
     return finalize(request, NextResponse.redirect(redirectUrl, 308));
   }
 
-  const isAppHost = hostname === "app.code2crest.com";
+  const isAppHost = isPortalHostname(hostname);
   const isLeadFlowHost = hostname === "leadflow.code2crest.com";
   const isMarketingHost = isMarketingHostname(hostname);
 
@@ -217,7 +254,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (!isProtectedRoute(pathname)) {
+  if (!isProtectedRoute(pathname, hostname)) {
     const response = finalize(request, NextResponse.next());
     response.headers.set("Server-Timing", `app;dur=${Date.now() - startedAt}`);
     return response;
@@ -232,6 +269,15 @@ export async function middleware(request: NextRequest) {
         request,
         NextResponse.redirect(getPortalUrl(request, pathname, request.nextUrl.search)),
       );
+    }
+
+    // On the Hub domain, keep /products visible in the browser but render the
+    // internal protected Hub products route. Public hosts and localhost keep the
+    // real marketing /products page.
+    if (isAppHost && isPortalProductsRoute(pathname)) {
+      const rewriteUrl = request.nextUrl.clone();
+      rewriteUrl.pathname = getInternalPortalPath(pathname);
+      return finalize(request, NextResponse.rewrite(rewriteUrl));
     }
 
     const response = finalize(request, NextResponse.next());

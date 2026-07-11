@@ -3,8 +3,16 @@ import PortalShell from "@/modules/portal/components/portal-shell";
 import { requireCompany } from "@/lib/auth/server";
 
 export const metadata: Metadata = {
-  title: "Code2Crest Hub",
-  description: "Business hub for Code2Crest products.",
+  title: {
+    default: "Code2Crest Hub",
+    template: "%s | Code2Crest Hub",
+  },
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+    nosnippet: true,
+  },
 };
 
 export default async function PortalLayout({

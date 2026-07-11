@@ -56,7 +56,7 @@ export default function Portfolio() {
           src={BlurredShapeGray}
           width={760}
           height={668}
-          alt="Background"
+          alt=""
         />
       </div>
 
@@ -68,7 +68,7 @@ export default function Portfolio() {
           src={BlurredShape}
           width={760}
           height={668}
-          alt="Background"
+          alt=""
         />
       </div>
 

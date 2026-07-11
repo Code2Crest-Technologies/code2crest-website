@@ -59,7 +59,7 @@ export default function Services() {
           src={BlurredShapeGray}
           width={760}
           height={668}
-          alt="Blurred shape"
+          alt=""
         />
       </div>
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">

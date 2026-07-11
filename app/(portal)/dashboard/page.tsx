@@ -54,19 +54,25 @@ export default async function DashboardPage() {
       label: "Open LeadFlow",
       href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products",
       icon: FaRocket,
+      newTab: hasLeadFlowAccess,
     },
-    { label: "Invite Team Member", href: "/team", icon: FaUsers },
-    { label: "Update Company Profile", href: "/company", icon: FaBuilding },
-    { label: "View Subscription", href: "/subscription", icon: FaCreditCard },
-    { label: "Manage Products", href: "/products", icon: FaLayerGroup },
-    { label: "Account Settings", href: "/settings", icon: FaGear },
+    { label: "Invite Team Member", href: "/team", icon: FaUsers, newTab: false },
+    { label: "Update Company Profile", href: "/company", icon: FaBuilding, newTab: false },
+    { label: "View Subscription", href: "/subscription", icon: FaCreditCard, newTab: false },
+    { label: "Manage Products", href: "/products", icon: FaLayerGroup, newTab: false },
+    { label: "Account Settings", href: "/settings", icon: FaGear, newTab: false },
   ];
   const checklist = [
-    { label: "Complete company profile", href: "/company", done: hasCompanyProfile },
-    { label: "Open LeadFlow", href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products", done: hasLeadFlowAccess },
-    { label: "Invite a team member", href: "/team", done: context.company.members > 1 },
-    { label: "Review subscription", href: "/subscription", done: Boolean(subscription) },
-    { label: "Configure account security", href: "/settings", done: false },
+    { label: "Complete company profile", href: "/company", done: hasCompanyProfile, newTab: false },
+    {
+      label: "Open LeadFlow",
+      href: hasLeadFlowAccess ? "/api/products/leadflow/launch" : "/products",
+      done: hasLeadFlowAccess,
+      newTab: hasLeadFlowAccess,
+    },
+    { label: "Invite a team member", href: "/team", done: context.company.members > 1, newTab: false },
+    { label: "Review subscription", href: "/subscription", done: Boolean(subscription), newTab: false },
+    { label: "Configure account security", href: "/settings", done: false, newTab: false },
   ];
 
   return (
@@ -130,6 +136,8 @@ export default async function DashboardPage() {
               <a
                 key={action.label}
                 href={action.href}
+                target={action.newTab ? "_blank" : undefined}
+                rel={action.newTab ? "noopener noreferrer" : undefined}
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700"
               >
                 <Icon className="h-4 w-4" />
@@ -149,6 +157,8 @@ export default async function DashboardPage() {
               <a
                 key={item.label}
                 href={item.href}
+                target={item.newTab ? "_blank" : undefined}
+                rel={item.newTab ? "noopener noreferrer" : undefined}
                 className="flex items-center gap-3 rounded-md border border-slate-100 px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
               >
                 <span

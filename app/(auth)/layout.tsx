@@ -1,8 +1,16 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Code2Crest Hub Access",
-  description: "Login and registration screens for Code2Crest Hub.",
+  title: {
+    default: "Code2Crest Hub",
+    template: "%s | Code2Crest Hub",
+  },
+  robots: {
+    index: false,
+    follow: false,
+    noarchive: true,
+    nosnippet: true,
+  },
 };
 
 export default function PortalAuthLayout({

@@ -69,7 +69,7 @@ export default function GetQuote() {
           src={BlurredShape}
           width={760}
           height={668}
-          alt="Blurred shape"
+          alt=""
         />
       </div>
 

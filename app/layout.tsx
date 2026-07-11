@@ -40,54 +40,10 @@ const nacelle = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.code2crest.com"),
-
-  alternates: {
-    canonical: "/",
-  },
-
-  title:
-    "Code2Crest Technologies - Web Development & Custom Software Solutions",
-
-  description:
-    "Code2Crest Technologies builds modern websites, web applications, e-commerce solutions, and custom software using React, Next.js, Node.js, MongoDB, TypeScript, and modern technologies.",
-
-  keywords: [
-    "Code2Crest Technologies",
-    "Web Development",
-    "Website Development",
-    "React.js",
-    "Next.js",
-    "Node.js",
-    "MongoDB",
-    "TypeScript",
-    "Tailwind CSS",
-    "E-Commerce Development",
-    "Custom Software Development",
-    "Mobile App Development",
-    "Full Stack Development",
-    "Erode Web Development Company",
-    "Tamil Nadu Software Company",
-  ],
-
-  authors: [
-    {
-      name: "Barath Rahav",
-      url: "https://www.code2crest.com",
-    },
-  ],
-
+  applicationName: "Code2Crest Technologies",
   creator: "Barath Rahav",
   publisher: "Code2Crest Technologies",
-
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
-
+  category: "technology",
   icons: {
     icon: [
       { url: "/favicon.ico" },
@@ -111,43 +67,6 @@ export const metadata: Metadata = {
   },
 
   manifest: "/site.webmanifest",
-
-  openGraph: {
-    title: "Code2Crest Technologies",
-    description:
-      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development and Custom Software Solutions.",
-
-    url: "https://www.code2crest.com",
-    siteName: "Code2Crest Technologies",
-
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Code2Crest Technologies",
-      },
-    ],
-
-    locale: "en_US",
-    type: "website",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-    title: "Code2Crest Technologies",
-    description:
-      "Web Development, E-Commerce Solutions, React, Next.js, Mobile App Development and Custom Software Solutions.",
-    images: ["/og-image.png"],
-  },
-
-  appleWebApp: {
-    capable: true,
-    title: "Code2Crest",
-    statusBarStyle: "black-translucent",
-  },
-
-  category: "technology",
 };
 
 export default function RootLayout({

@@ -14,7 +14,7 @@ export default function AboutFounder() {
           src={BlurredShape}
           width={760}
           height={668}
-          alt="Blurred shape"
+          alt=""
         />
       </div>
 
@@ -39,7 +39,7 @@ export default function AboutFounder() {
 
                 <Image
                   src={FounderImage}
-                  alt="Barath Rahav"
+                  alt="Barath Rahav, founder of Code2Crest Technologies"
                   fill
                   priority
                   className="object-cover transition duration-500 group-hover:scale-105"

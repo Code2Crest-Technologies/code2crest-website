@@ -32,7 +32,7 @@ export default function ConnectPage() {
           src={BlurredShape}
           width={760}
           height={668}
-          alt="Blurred shape"
+          alt=""
         />
       </div>
 
@@ -45,7 +45,7 @@ export default function ConnectPage() {
           src={BlurredShape}
           width={760}
           height={668}
-          alt="Blurred shape"
+          alt=""
         />
       </div>
 
@@ -80,7 +80,7 @@ export default function ConnectPage() {
   <div className="relative h-48 w-48 overflow-hidden rounded-full border-2 border-indigo-500/30">
     <Image
       src={FounderImage}
-      alt="Barath Rahav"
+      alt="Barath Rahav, founder of Code2Crest Technologies"
       fill
       className="object-cover"
     />

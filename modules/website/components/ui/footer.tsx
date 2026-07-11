@@ -23,7 +23,7 @@ export default function Footer() {
             src={FooterIllustration}
             width={1076}
             height={378}
-            alt="Footer Background"
+            alt=""
           />
         </div>
 

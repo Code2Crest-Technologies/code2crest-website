@@ -8,16 +8,21 @@ Create production environment variables in the hosting provider:
 
 ```bash
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/code2crest?schema=public"
+SHADOW_DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/code2crest_shadow?schema=public"
 AUTH_SECRET="use-a-random-32-plus-character-secret"
 SSO_SECRET="use-a-random-32-plus-character-sso-secret"
 NEXT_PUBLIC_APP_URL="https://app.code2crest.com"
 NEXT_PUBLIC_MARKETING_URL="https://www.code2crest.com"
 NEXT_PUBLIC_LEADFLOW_URL="https://leadflow.code2crest.com"
 APP_URL="https://app.code2crest.com"
+EMAIL_FROM="Code2Crest Hub <hello@code2crest.com>"
+RESEND_API_KEY="re_..."
+PLATFORM_ADMIN_EMAILS="founder@code2crest.com,admin@code2crest.com"
 ```
 
 `AUTH_SECRET` signs the httpOnly portal session cookie. Use a strong random value and rotate carefully.
 `SSO_SECRET` signs short-lived LeadFlow launch tokens and must match the verifier configured in LeadFlow.
+`SHADOW_DATABASE_URL` must point to a separate disposable database used only for Prisma migration verification. Do not point it at production data.
 
 ## Razorpay Billing Foundation
 
@@ -102,6 +107,31 @@ Apply production migrations:
 ```bash
 npx prisma migrate deploy
 ```
+
+Do not use `npx prisma db push` for production. The production database should be changed only through reviewed Prisma migrations.
+
+Verify the committed migration chain in CI or a staging environment before production:
+
+```bash
+npx prisma migrate diff --from-empty --to-migrations prisma/migrations --script
+```
+
+This verification requires `SHADOW_DATABASE_URL` so Prisma can replay migrations safely without touching production data.
+
+## Deployment Verification
+
+After deployment:
+
+1. Run `npx prisma migrate deploy` in the deployment environment.
+2. Run `npx prisma generate` during build/install.
+3. Open `GET /api/health` and confirm environment validation is healthy.
+4. Confirm `https://app.code2crest.com/login` loads.
+5. Confirm forgot password sends a safe generic response.
+6. Confirm `PLATFORM_ADMIN_EMAILS` users can access `/admin`.
+7. Confirm non-platform-admin users are redirected away from `/admin`.
+8. Confirm `https://www.code2crest.com/products` remains public.
+9. Confirm `https://app.code2crest.com/products` requires auth and then renders Hub products.
+10. Confirm LeadFlow launch still redirects through `/api/products/leadflow/launch`.
 
 Seed default product catalog:
 

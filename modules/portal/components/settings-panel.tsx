@@ -11,12 +11,16 @@ import {
   FaUser,
 } from "react-icons/fa6";
 import type { AuthUser } from "@/lib/auth/session";
+import { PasswordField, PasswordStrength } from "@/modules/portal/components/auth-ui";
 
 export default function SettingsPanel({ user }: { user: AuthUser }) {
   const [name, setName] = useState(user.name);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   async function updateProfile(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -37,6 +41,43 @@ export default function SettingsPanel({ user }: { user: AuthUser }) {
     }
 
     setMessage("Profile updated.");
+  }
+
+  async function changePassword(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    setError("");
+    setIsChangingPassword(true);
+    const response = await fetch("/api/auth/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+    const data = (await response.json().catch(() => null)) as { message?: string } | null;
+    setIsChangingPassword(false);
+
+    if (!response.ok) {
+      setError(data?.message ?? "Unable to change password.");
+      return;
+    }
+
+    setCurrentPassword("");
+    setNewPassword("");
+    setMessage(data?.message ?? "Password changed.");
+  }
+
+  async function resendVerification() {
+    setMessage("");
+    setError("");
+    const response = await fetch("/api/auth/resend-verification", { method: "POST" });
+    const data = (await response.json().catch(() => null)) as { message?: string } | null;
+
+    if (!response.ok) {
+      setError(data?.message ?? "Unable to resend verification email.");
+      return;
+    }
+
+    setMessage(data?.message ?? "Verification email sent.");
   }
 
   return (
@@ -99,12 +140,74 @@ export default function SettingsPanel({ user }: { user: AuthUser }) {
         </div>
       </section>
 
+      {!user.emailVerifiedAt ? (
+        <section className="rounded-lg border border-amber-200 bg-amber-50 p-5">
+          <h2 className="text-sm font-semibold text-amber-900">
+            Email verification recommended
+          </h2>
+          <p className="mt-2 text-sm text-amber-800">
+            Your email is not verified yet. Founder testing is not blocked, but
+            verification is recommended before beta use.
+          </p>
+          <button
+            type="button"
+            onClick={resendVerification}
+            className="mt-4 inline-flex h-10 items-center rounded-xl bg-amber-600 px-4 text-sm font-semibold text-white transition hover:bg-amber-700"
+          >
+            Resend verification email
+          </button>
+        </section>
+      ) : null}
+
+      <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/70">
+        <div className="flex items-start gap-4">
+          <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+            <FaShieldHalved className="h-5 w-5" />
+          </span>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-slate-950">Security</h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Change your password and revoke other sessions.
+            </p>
+            <form onSubmit={changePassword} className="mt-5 grid gap-4 lg:grid-cols-2">
+              <PasswordField
+                id="currentPassword"
+                name="currentPassword"
+                label="Current password"
+                placeholder="Enter current password"
+                autoComplete="current-password"
+                value={currentPassword}
+                onChange={setCurrentPassword}
+                required
+              />
+              <PasswordField
+                id="newPassword"
+                name="newPassword"
+                label="New password"
+                placeholder="Create a secure password"
+                autoComplete="new-password"
+                value={newPassword}
+                onChange={setNewPassword}
+                required
+              />
+              <div className="lg:col-span-2">
+                <PasswordStrength password={newPassword} />
+              </div>
+              <div className="lg:col-span-2">
+                <button
+                  type="submit"
+                  disabled={isChangingPassword}
+                  className="inline-flex h-11 items-center justify-center rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:bg-blue-400"
+                >
+                  {isChangingPassword ? "Changing..." : "Change password"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
       {[
-        {
-          title: "Security",
-          icon: FaShieldHalved,
-          items: ["Change password", "Active sessions", "Logout all sessions", "Two-factor authentication"],
-        },
         {
           title: "Notifications",
           icon: FaBell,

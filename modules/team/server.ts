@@ -2,7 +2,10 @@ import { randomBytes } from "crypto";
 import { InviteStatus, MembershipRole } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
 import { hashPassword } from "@/lib/auth/password";
+import { validatePasswordPolicy } from "@/lib/auth/policy";
 import { checkPlanLimit } from "@/modules/subscription/server";
+import { sendEmail } from "@/lib/email/client";
+import { teamInviteEmail } from "@/lib/email/templates";
 
 export const INVITE_EXPIRES_IN_DAYS = 7;
 
@@ -177,10 +180,24 @@ export async function createInvite(input: {
       invitedById: input.invitedById,
     },
   });
+  const company = await prisma.company.findUnique({
+    where: { id: input.companyId },
+    select: { name: true },
+  });
+  const inviteLink = `${input.origin}/register?inviteToken=${invite.token}`;
+
+  await sendEmail({
+    to: invite.email,
+    ...teamInviteEmail({
+      companyName: company?.name ?? "Code2Crest Hub",
+      inviteLink,
+    }),
+    previewLabel: "team-invite",
+  });
 
   return teamSuccess(201, {
     invite,
-    inviteLink: `${input.origin}/register?inviteToken=${invite.token}`,
+    inviteLink,
   });
 }
 
@@ -243,6 +260,12 @@ export async function acceptInvite(input: {
         400,
         "Name and password are required to accept this invite.",
       );
+    }
+
+    const passwordPolicy = validatePasswordPolicy(input.password);
+
+    if (!passwordPolicy.ok) {
+      return teamError(400, passwordPolicy.message);
     }
 
     user = await prisma.user.create({
@@ -368,4 +391,48 @@ export async function cancelInvite(input: {
   });
 
   return teamSuccess(200, { invite: cancelledInvite });
+}
+
+export async function resendInvite(input: {
+  companyId: string;
+  inviteId: string;
+  actorRole: MembershipRole;
+  origin: string;
+}) {
+  if (!canManageTeam(input.actorRole)) {
+    return teamError(403, "Only OWNER and ADMIN members can resend invites.");
+  }
+
+  const invite = await prisma.invite.findFirst({
+    where: {
+      id: input.inviteId,
+      companyId: input.companyId,
+      status: InviteStatus.PENDING,
+    },
+    include: { company: true },
+  });
+
+  if (!invite) {
+    return teamError(404, "Pending invite not found.");
+  }
+
+  const updatedInvite = await prisma.invite.update({
+    where: { id: invite.id },
+    data: {
+      token: createInviteToken(),
+      expiresAt: new Date(Date.now() + INVITE_EXPIRES_IN_DAYS * 24 * 60 * 60 * 1000),
+    },
+  });
+  const inviteLink = `${input.origin}/register?inviteToken=${updatedInvite.token}`;
+
+  await sendEmail({
+    to: updatedInvite.email,
+    ...teamInviteEmail({
+      companyName: invite.company.name,
+      inviteLink,
+    }),
+    previewLabel: "team-invite-resend",
+  });
+
+  return teamSuccess(200, { invite: updatedInvite, inviteLink });
 }

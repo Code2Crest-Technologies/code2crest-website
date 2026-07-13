@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { MembershipRole } from "@prisma/client";
 import { getAuthContext } from "@/lib/auth/server";
 import { prisma } from "@/lib/db/prisma";
+import { createAuditLog } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/http/request";
 
 const editableFields = [
   "name",
@@ -93,6 +95,16 @@ export async function PATCH(request: Request) {
       logoUrl: true,
       updatedAt: true,
     },
+  });
+
+  await createAuditLog({
+    action: "COMPANY_UPDATED",
+    actorId: context.user.id,
+    companyId: context.companyId,
+    entityType: "Company",
+    entityId: context.companyId,
+    metadata: { fields: editableFields.filter((field) => field in body) },
+    ...getRequestMeta(request),
   });
 
   return NextResponse.json({ company: updatedCompany });

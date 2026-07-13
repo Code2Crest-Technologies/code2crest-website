@@ -174,6 +174,26 @@ export default function TeamManager() {
     await loadTeam();
   }
 
+  async function resendInvite(inviteId: string) {
+    setMessage("");
+    const response = await fetch(`/api/team/invite/${inviteId}/resend`, {
+      method: "POST",
+    });
+    const data = (await response.json().catch(() => null)) as {
+      message?: string;
+      inviteLink?: string;
+    } | null;
+
+    if (!response.ok) {
+      setMessage(data?.message ?? "Unable to resend invite.");
+      return;
+    }
+
+    setInviteLink(data?.inviteLink ?? "");
+    setMessage("Invite resent with a new link.");
+    await loadTeam();
+  }
+
   async function copyInviteLink(link: string) {
     await navigator.clipboard.writeText(link);
     setMessage("Invite link copied.");
@@ -369,7 +389,7 @@ export default function TeamManager() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => copyInviteLink(invite.inviteLink)}
+                    onClick={() => resendInvite(invite.id)}
                     className="inline-flex h-9 items-center gap-2 rounded-md border border-slate-200 px-3 text-xs font-semibold text-slate-600 transition hover:bg-slate-50"
                   >
                     <FaPaperPlane className="h-3 w-3" />

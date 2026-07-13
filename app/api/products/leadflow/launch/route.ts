@@ -9,6 +9,8 @@ import { getAuthContext } from "@/lib/auth/server";
 import { createLeadFlowSsoToken } from "@/lib/auth/sso";
 import { getPortalHref } from "@/lib/config/public-url";
 import { prisma } from "@/lib/db/prisma";
+import { createAuditLog } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/http/request";
 
 const leadFlowCallbackUrl = "https://leadflow.code2crest.com/sso/callback";
 const ssoIssuer = "code2crest-portal";
@@ -116,6 +118,16 @@ export async function GET(request: Request) {
   });
   const callbackUrl = new URL(leadFlowCallbackUrl);
   callbackUrl.searchParams.set("token", token);
+
+  await createAuditLog({
+    action: "PRODUCT_LAUNCHED",
+    actorId: context.user.id,
+    companyId: context.companyId,
+    entityType: "Product",
+    entityId: leadFlowAccess.productId,
+    metadata: { productKey: "leadflow" },
+    ...getRequestMeta(request),
+  });
 
   return NextResponse.redirect(callbackUrl);
 }

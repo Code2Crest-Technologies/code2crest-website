@@ -39,6 +39,9 @@ export async function getCurrentUser() {
       id: true,
       name: true,
       email: true,
+      emailVerifiedAt: true,
+      platformRole: true,
+      sessionVersion: true,
       createdAt: true,
       updatedAt: true,
     },
@@ -118,12 +121,19 @@ export async function getAuthContext() {
       id: true,
       name: true,
       email: true,
+      emailVerifiedAt: true,
+      platformRole: true,
+      sessionVersion: true,
       createdAt: true,
       updatedAt: true,
     },
   });
 
   if (!user) {
+    return null;
+  }
+
+  if (session.sessionVersion !== user.sessionVersion) {
     return null;
   }
 
@@ -211,4 +221,18 @@ export async function requireCompany() {
     membershipRole: context.membershipRole,
     companyId: context.companyId,
   };
+}
+
+export async function requirePlatformAdmin() {
+  const context = await getAuthContext();
+
+  if (!context) {
+    redirect(getPortalHref("/login"));
+  }
+
+  if (context.user.platformRole !== "PLATFORM_ADMIN") {
+    redirect(getPortalHref("/dashboard"));
+  }
+
+  return context;
 }

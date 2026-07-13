@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/auth/server";
 import { isMembershipRole, updateMemberRole } from "@/modules/team/server";
+import { createAuditLog } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/http/request";
 
 type RouteContext = {
   params: Promise<{
@@ -34,6 +36,16 @@ export async function PATCH(request: Request, routeContext: RouteContext) {
   if (!result.ok) {
     return NextResponse.json({ message: result.message }, { status: result.status });
   }
+
+  await createAuditLog({
+    action: "MEMBER_ROLE_CHANGED",
+    actorId: context.user.id,
+    companyId: context.companyId,
+    entityType: "Membership",
+    entityId: result.membership.id,
+    metadata: { role: result.membership.role },
+    ...getRequestMeta(request),
+  });
 
   return NextResponse.json({ membership: result.membership });
 }

@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/auth/server";
-import { createInvite, isMembershipRole } from "@/modules/team/server";
+import { resendInvite } from "@/modules/team/server";
 import { createAuditLog } from "@/lib/audit/log";
 import { getRequestMeta } from "@/lib/http/request";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 
-export async function POST(request: Request) {
+export async function POST(
+  request: Request,
+  { params }: { params: Promise<{ inviteId: string }> },
+) {
   const context = await getAuthContext();
 
   if (!context) {
@@ -14,38 +17,24 @@ export async function POST(request: Request) {
 
   const requestMeta = getRequestMeta(request);
   const rate = checkRateLimit({
-    key: `team-invite:${context.user.id}:${requestMeta.ip ?? "unknown"}`,
+    key: `team-invite-resend:${context.user.id}:${requestMeta.ip ?? "unknown"}`,
     limit: 10,
     windowMs: 60 * 60 * 1000,
   });
 
   if (!rate.ok) {
     return NextResponse.json(
-      { message: "Please wait before sending more invites." },
+      { message: "Please wait before resending more invites." },
       { status: 429 },
     );
   }
 
-  const body = (await request.json().catch(() => null)) as {
-    email?: string;
-    role?: string;
-  } | null;
-
-  if (!body?.email || !isMembershipRole(body.role)) {
-    return NextResponse.json(
-      { message: "A valid email and role are required." },
-      { status: 400 },
-    );
-  }
-
-  const origin = new URL(request.url).origin;
-  const result = await createInvite({
+  const { inviteId } = await params;
+  const result = await resendInvite({
     companyId: context.companyId,
-    email: body.email,
-    role: body.role,
-    invitedById: context.user.id,
-    inviterRole: context.membershipRole,
-    origin,
+    inviteId,
+    actorRole: context.membershipRole,
+    origin: new URL(request.url).origin,
   });
 
   if (!result.ok) {
@@ -58,15 +47,9 @@ export async function POST(request: Request) {
     companyId: context.companyId,
     entityType: "Invite",
     entityId: result.invite.id,
-    metadata: { email: result.invite.email, role: result.invite.role },
+    metadata: { email: result.invite.email, role: result.invite.role, resent: true },
     ...requestMeta,
   });
 
-  return NextResponse.json(
-    {
-      invite: result.invite,
-      inviteLink: result.inviteLink,
-    },
-    { status: result.status },
-  );
+  return NextResponse.json({ invite: result.invite, inviteLink: result.inviteLink });
 }

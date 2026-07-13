@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
 import { verifyPassword } from "@/lib/auth/password";
+import { createAuditLog } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/http/request";
+import { getPlatformRoleForEmail } from "@/lib/auth/platform-admin";
 import {
   buildPortalSession,
   createSessionToken,
@@ -9,6 +12,7 @@ import {
 } from "@/lib/auth/session";
 
 export async function POST(request: Request) {
+  const requestMeta = getRequestMeta(request);
   const body = (await request.json().catch(() => null)) as {
     email?: string;
     password?: string;
@@ -33,6 +37,14 @@ export async function POST(request: Request) {
   });
 
   if (!user || !(await verifyPassword(body.password, user.passwordHash))) {
+    await createAuditLog({
+      action: "LOGIN_FAILED",
+      actorId: user?.id,
+      entityType: "User",
+      entityId: user?.id ?? body.email.trim().toLowerCase(),
+      metadata: { email: body.email.trim().toLowerCase() },
+      ...requestMeta,
+    });
     return NextResponse.json(
       { message: "Invalid email or password." },
       { status: 401 },
@@ -48,10 +60,20 @@ export async function POST(request: Request) {
     );
   }
 
+  const platformRole = getPlatformRoleForEmail(user.email);
+
+  if (user.platformRole !== platformRole) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { platformRole },
+    });
+  }
+
   const session = buildPortalSession({
     userId: user.id,
     activeCompanyId: activeMembership.companyId,
     membershipRole: activeMembership.role,
+    sessionVersion: user.sessionVersion,
   });
   const token = await createSessionToken(session);
   const response = NextResponse.json({
@@ -75,6 +97,15 @@ export async function POST(request: Request) {
     sameSite: "lax",
     path: "/",
     maxAge: SESSION_MAX_AGE_SECONDS,
+  });
+
+  await createAuditLog({
+    action: "LOGIN_SUCCESS",
+    actorId: user.id,
+    companyId: activeMembership.companyId,
+    entityType: "User",
+    entityId: user.id,
+    ...requestMeta,
   });
 
   return response;

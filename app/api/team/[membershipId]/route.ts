@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getAuthContext } from "@/lib/auth/server";
 import { removeMember } from "@/modules/team/server";
+import { createAuditLog } from "@/lib/audit/log";
+import { getRequestMeta } from "@/lib/http/request";
 
 type RouteContext = {
   params: Promise<{
@@ -8,7 +10,7 @@ type RouteContext = {
   }>;
 };
 
-export async function DELETE(_request: Request, routeContext: RouteContext) {
+export async function DELETE(request: Request, routeContext: RouteContext) {
   const context = await getAuthContext();
 
   if (!context) {
@@ -25,6 +27,15 @@ export async function DELETE(_request: Request, routeContext: RouteContext) {
   if (!result.ok) {
     return NextResponse.json({ message: result.message }, { status: result.status });
   }
+
+  await createAuditLog({
+    action: "MEMBER_REMOVED",
+    actorId: context.user.id,
+    companyId: context.companyId,
+    entityType: "Membership",
+    entityId: result.membership.id,
+    ...getRequestMeta(request),
+  });
 
   return NextResponse.json({ membership: result.membership });
 }

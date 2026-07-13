@@ -87,7 +87,7 @@ export default function LoginForm() {
       <div className="flex items-center justify-between text-sm">
         <span className="text-slate-500">Protected with secure sessions.</span>
         <Link
-          href="mailto:hello@code2crest.com?subject=Code2Crest%20Hub%20Password%20Help"
+          href="/forgot-password"
           className="font-semibold text-blue-600 transition hover:text-blue-700"
         >
           Forgot password?

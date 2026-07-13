@@ -5,6 +5,8 @@ export type AuthUser = {
   id: string;
   name: string;
   email: string;
+  emailVerifiedAt?: Date | string | null;
+  platformRole?: string;
 };
 
 export type AuthCompany = {
@@ -36,6 +38,7 @@ export type AuthSession = {
   userId: string;
   activeCompanyId: string;
   membershipRole: string;
+  sessionVersion: number;
   issuedAt: number;
   expiresAt: number;
 };
@@ -140,6 +143,7 @@ export function buildPortalSession(input: {
   userId: string;
   activeCompanyId: string;
   membershipRole: string;
+  sessionVersion: number;
 }) {
   const now = Date.now();
 
@@ -147,6 +151,7 @@ export function buildPortalSession(input: {
     userId: input.userId,
     activeCompanyId: input.activeCompanyId,
     membershipRole: input.membershipRole,
+    sessionVersion: input.sessionVersion,
     issuedAt: now,
     expiresAt: now + SESSION_MAX_AGE_SECONDS * 1000,
   } satisfies AuthSession;

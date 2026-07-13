@@ -9,6 +9,12 @@ const optionalBillingEnv = [
   "RAZORPAY_PLAN_GROWTH",
   "RAZORPAY_PLAN_BUSINESS",
 ] as const;
+const optionalPlatformEnv = [
+  "RESEND_API_KEY",
+  "EMAIL_FROM",
+  "APP_URL",
+  "PLATFORM_ADMIN_EMAILS",
+] as const;
 
 export type EnvValidationResult = {
   ok: boolean;
@@ -46,6 +52,22 @@ export function validateProductionEnv(): EnvValidationResult {
     warnings.push("All Razorpay variables must be configured together before enabling checkout.");
   }
 
+  if (process.env.NODE_ENV === "production" && !process.env.EMAIL_FROM) {
+    warnings.push("EMAIL_FROM should be configured before beta email delivery.");
+  }
+
+  if (process.env.NODE_ENV === "production" && !process.env.RESEND_API_KEY) {
+    warnings.push("RESEND_API_KEY should be configured before beta email delivery.");
+  }
+
+  if (process.env.NODE_ENV === "production" && !process.env.APP_URL) {
+    warnings.push("APP_URL should be configured for auth and email links.");
+  }
+
+  if (process.env.NODE_ENV === "production" && !process.env.PLATFORM_ADMIN_EMAILS) {
+    warnings.push("PLATFORM_ADMIN_EMAILS should list trusted internal admins.");
+  }
+
   return {
     ok: missing.length === 0 && warnings.length === 0,
     missing,
@@ -65,4 +87,8 @@ export function getRequiredEnv(name: (typeof requiredServerEnv)[number]) {
 
 export function isRazorpayConfigured() {
   return optionalBillingEnv.every((name) => Boolean(process.env[name]));
+}
+
+export function getOptionalPlatformEnvNames() {
+  return optionalPlatformEnv;
 }

@@ -8,7 +8,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "test:production-readiness": "node --test tests/production-readiness.test.mjs",
     "lint": "next lint",
+    "test:security": "node tests/security.test.mjs",
     "seed": "node prisma/seed.js",
     "postinstall": "prisma generate"
   },

@@ -51,19 +51,45 @@ enum SubscriptionStatus {
   EXPIRED
 }
 
-model User {
-  id           String       @id @default(cuid())
-  name         String
-  email        String       @unique
-  passwordHash String
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+enum PlatformRole {
+  USER
+  PLATFORM_ADMIN
+}
 
-  ownedCompanies Company[]    @relation("CompanyOwner")
-  memberships    Membership[]
-  sentInvites     Invite[]     @relation("InvitesSentBy")
+enum AuditLogAction {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  PASSWORD_RESET_REQUESTED
+  PASSWORD_CHANGED
+  COMPANY_UPDATED
+  MEMBER_INVITED
+  MEMBER_ROLE_CHANGED
+  MEMBER_REMOVED
+  PRODUCT_LAUNCHED
+  SUBSCRIPTION_CHANGED
+  ADMIN_ACTION
+}
+
+model User {
+  id              String       @id @default(cuid())
+  name            String
+  email           String       @unique
+  passwordHash    String
+  emailVerifiedAt DateTime?
+  platformRole    PlatformRole @default(USER)
+  sessionVersion  Int          @default(1)
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  ownedCompanies          Company[]                @relation("CompanyOwner")
+  memberships             Membership[]
+  sentInvites             Invite[]                 @relation("InvitesSentBy")
+  passwordResetTokens     PasswordResetToken[]
+  emailVerificationTokens EmailVerificationToken[]
+  auditLogs               AuditLog[]               @relation("AuditActor")
 
   @@index([email])
+  @@index([platformRole])
 }
 
 model Company {
@@ -92,6 +118,7 @@ model Company {
   subscription    Subscription?
   billingCustomer BillingCustomer?
   payments        Payment[]
+  auditLogs       AuditLog[]
 
   @@index([ownerId])
   @@index([slug])
@@ -175,6 +202,36 @@ model Invite {
   @@index([companyId, email, status])
 }
 
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([usedAt])
+}
+
+model EmailVerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@index([usedAt])
+}
+
 model Subscription {
   id                     String             @id @default(cuid())
   companyId              String             @unique
@@ -251,4 +308,26 @@ model BillingEvent {
   @@index([provider])
   @@index([eventType])
   @@index([processedAt])
+}
+
+model AuditLog {
+  id         String         @id @default(cuid())
+  action     AuditLogAction
+  actorId    String?
+  companyId  String?
+  entityType String?
+  entityId   String?
+  metadata   Json?
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime       @default(now())
+
+  actor  User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  company Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([actorId])
+  @@index([companyId])
+  @@index([entityType, entityId])
+  @@index([createdAt])
 }

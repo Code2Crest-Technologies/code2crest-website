@@ -4,7 +4,7 @@ import logo from "@/public/images/logo.svg";
 
 export default function Logo() {
   return (
-    <Link href="#home" className="inline-flex shrink-0">
+    <Link href="/" className="inline-flex shrink-0" aria-label="Go to Code2Crest home">
       <Image
         src={logo}
         alt="Code2Crest Technologies logo"

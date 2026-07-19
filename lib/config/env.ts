@@ -14,6 +14,8 @@ const optionalPlatformEnv = [
   "EMAIL_FROM",
   "APP_URL",
   "PLATFORM_ADMIN_EMAILS",
+  "LEADFLOW_INTERNAL_API_URL",
+  "CODE2CREST_LEADFLOW_INTEGRATION_SECRET",
 ] as const;
 
 export type EnvValidationResult = {
@@ -66,6 +68,17 @@ export function validateProductionEnv(): EnvValidationResult {
 
   if (process.env.NODE_ENV === "production" && !process.env.PLATFORM_ADMIN_EMAILS) {
     warnings.push("PLATFORM_ADMIN_EMAILS should list trusted internal admins.");
+  }
+
+  if (process.env.NODE_ENV === "production" && !process.env.LEADFLOW_INTERNAL_API_URL) {
+    warnings.push("LEADFLOW_INTERNAL_API_URL should be configured for website lead forwarding.");
+  }
+
+  if (
+    process.env.NODE_ENV === "production" &&
+    !process.env.CODE2CREST_LEADFLOW_INTEGRATION_SECRET
+  ) {
+    warnings.push("CODE2CREST_LEADFLOW_INTEGRATION_SECRET should be configured for website lead forwarding.");
   }
 
   return {

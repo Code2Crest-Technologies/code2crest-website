@@ -17,6 +17,7 @@ export default function RegisterForm() {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [password, setPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -32,6 +33,11 @@ export default function RegisterForm() {
       return;
     }
 
+    if (!acceptedTerms) {
+      setError("Please accept the Terms & Conditions and Privacy Policy to continue.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
@@ -43,6 +49,7 @@ export default function RegisterForm() {
         companyName: formData.get("companyName"),
         email: formData.get("email"),
         password,
+        acceptedTerms,
       }),
     });
     const result = (await response.json().catch(() => null)) as {
@@ -116,6 +123,33 @@ export default function RegisterForm() {
         required
       />
       <PasswordStrength password={password} />
+      <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm leading-6 text-slate-600">
+        <input
+          type="checkbox"
+          name="acceptedTerms"
+          checked={acceptedTerms}
+          onChange={(event) => setAcceptedTerms(event.target.checked)}
+          required
+          className="mt-1 h-4 w-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+        />
+        <span>
+          I agree to the{" "}
+          <Link
+            href="https://www.code2crest.com/terms-and-conditions"
+            className="font-semibold text-blue-600 underline underline-offset-4"
+          >
+            Terms & Conditions
+          </Link>{" "}
+          and{" "}
+          <Link
+            href="https://www.code2crest.com/privacy-policy"
+            className="font-semibold text-blue-600 underline underline-offset-4"
+          >
+            Privacy Policy
+          </Link>
+          .
+        </span>
+      </label>
       <FormError message={error} />
       <LoadingButton isLoading={isSubmitting} loadingText="Creating workspace...">
         Register

@@ -21,11 +21,19 @@ export async function POST(request: Request) {
     email?: string;
     password?: string;
     companyName?: string;
+    acceptedTerms?: boolean;
   } | null;
 
   if (!body?.name || !body.email || !body.password || !body.companyName) {
     return NextResponse.json(
       { message: "Name, email, password, and company name are required." },
+      { status: 400 },
+    );
+  }
+
+  if (body.acceptedTerms !== true) {
+    return NextResponse.json(
+      { message: "You must accept the Terms & Conditions and Privacy Policy." },
       { status: 400 },
     );
   }

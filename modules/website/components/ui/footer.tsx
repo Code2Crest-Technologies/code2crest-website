@@ -1,5 +1,6 @@
 import Logo from "./logo";
 import Image from "next/image";
+import Link from "next/link";
 import FooterIllustration from "@/public/images/footer-illustration.svg";
 import { products } from "@/modules/portal/data/products";
 
@@ -71,61 +72,7 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-5 lg:text-left">
-
-            {/* Services */}
-            <div>
-              <h3 className="mb-4 text-sm font-semibold text-white">
-                Services
-              </h3>
-
-              <ul className="space-y-3.5 text-sm">
-                <li>
-                  <a
-                    href="/#services"
-                    className="text-slate-400 hover:text-indigo-400"
-                  >
-                    Web Development
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="/#services"
-                    className="text-slate-400 hover:text-indigo-400"
-                  >
-                    E-Commerce Solutions
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="/#services"
-                    className="text-slate-400 hover:text-indigo-400"
-                  >
-                    React & Next.js Apps
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="/#services"
-                    className="text-slate-400 hover:text-indigo-400"
-                  >
-                    Mobile App Development
-                  </a>
-                </li>
-
-                <li>
-                  <a
-                    href="/#services"
-                    className="text-slate-400 hover:text-indigo-400"
-                  >
-                    Custom Software
-                  </a>
-                </li>
-              </ul>
-            </div>
+          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-6 lg:text-left">
 
             {/* Company */}
             <div>
@@ -135,39 +82,138 @@ export default function Footer() {
 
               <ul className="space-y-3.5 text-sm">
                 <li>
-                  <a
-                    href="/#why-us"
-                    className="text-slate-400 hover:text-indigo-400"
+                  <Link
+                    href="/#about-founder"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    Why Choose Us
-                  </a>
+                    About
+                  </Link>
                 </li>
 
                 <li>
-                  <a
-                    href="/#portfolio"
-                    className="text-slate-400 hover:text-indigo-400"
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    Portfolio
-                  </a>
+                    Services
+                  </Link>
                 </li>
 
                 <li>
-                  <a
+                  <Link
+                    href="/#products"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Products
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
                     href="/#contact"
-                    className="text-slate-400 hover:text-indigo-400"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     Contact
-                  </a>
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold text-white">
+                Services
+              </h3>
+
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Web Development
+                  </Link>
                 </li>
 
                 <li>
-                  <a
-                    href="/#GetQuote"
-                    className="text-slate-400 hover:text-indigo-400"
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    Get Quote
-                  </a>
+                    E-Commerce Solutions
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    React & Next.js Apps
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Mobile App Development
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/#services"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Custom Software
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold text-white">
+                Legal
+              </h3>
+
+              <ul className="space-y-3.5 text-sm">
+                <li>
+                  <Link
+                    href="/privacy-policy"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/terms-and-conditions"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Terms & Conditions
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/cookie-policy"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Cookie Policy
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    href="/refund-cancellation-policy"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Refund & Cancellation Policy
+                  </Link>
                 </li>
               </ul>
             </div>

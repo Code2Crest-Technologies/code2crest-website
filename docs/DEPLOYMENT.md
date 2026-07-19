@@ -18,11 +18,15 @@ APP_URL="https://app.code2crest.com"
 EMAIL_FROM="Code2Crest Hub <hello@code2crest.com>"
 RESEND_API_KEY="re_..."
 PLATFORM_ADMIN_EMAILS="founder@code2crest.com,admin@code2crest.com"
+LEADFLOW_INTERNAL_API_URL="https://leadflow-backend.example.com"
+CODE2CREST_LEADFLOW_INTEGRATION_SECRET="use-the-shared-server-only-secret"
 ```
 
 `AUTH_SECRET` signs the httpOnly portal session cookie. Use a strong random value and rotate carefully.
 `SSO_SECRET` signs short-lived LeadFlow launch tokens and must match the verifier configured in LeadFlow.
 `SHADOW_DATABASE_URL` must point to a separate disposable database used only for Prisma migration verification. Do not point it at production data.
+`LEADFLOW_INTERNAL_API_URL` should point to the LeadFlow backend origin. The server-only website client appends `/api/internal/leads/intake`. A full intake URL is accepted for compatibility, but avoid `/api` suffixes that would produce `/api/api/internal/leads/intake`.
+`CODE2CREST_LEADFLOW_INTEGRATION_SECRET` is a server-only shared secret used by the website to forward validated Get Quote leads to LeadFlow.
 
 ## Razorpay Billing Foundation
 
@@ -132,6 +136,7 @@ After deployment:
 8. Confirm `https://www.code2crest.com/products` remains public.
 9. Confirm `https://app.code2crest.com/products` requires auth and then renders Hub products.
 10. Confirm LeadFlow launch still redirects through `/api/products/leadflow/launch`.
+11. Submit a public Get Quote enquiry and confirm it is delivered by email and, when LeadFlow env vars are configured, appears in the Code2Crest LeadFlow tenant as a PROSPECT deal.
 
 Seed default product catalog:
 

@@ -18,14 +18,14 @@ import {
 } from "@/modules/website/components/structured-data";
 
 export const metadata: Metadata = {
-  title: "Code2Crest Technologies | Web Design and Web Development Company in Erode",
+  title: "Web Development Company in Erode|Code2Crest Technologies",
   description:
     "Code2Crest Technologies builds modern websites, web applications, e-commerce platforms, SaaS products, mobile apps, and custom software solutions for businesses in Erode, Tamil Nadu, and across India.",
   alternates: {
     canonical: "https://www.code2crest.com",
   },
   openGraph: {
-    title: "Code2Crest Technologies | Web Design and Web Development Company in Erode",
+    title: "Code2Crest Technologies | Web Development Company in Erode",
     description:
       "Code2Crest Technologies builds modern websites, web applications, e-commerce platforms, SaaS products, mobile apps, and custom software solutions for businesses in Erode, Tamil Nadu, and across India.",
     url: "https://www.code2crest.com",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
         url: "https://www.code2crest.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Code2Crest Technologies web design and Web development company in Erode",
+        alt: "Code2Crest Technologies web development company in Erode",
       },
     ],
   },

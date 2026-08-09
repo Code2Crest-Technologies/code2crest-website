@@ -22,6 +22,7 @@ export async function GET() {
 
   return NextResponse.json({
     companyId: context.companyId,
+    platformRole: context.user.platformRole,
     plan: subscription.subscription.plan,
     status: subscription.subscription.status,
     billingCycle: subscription.subscription.billingCycle,

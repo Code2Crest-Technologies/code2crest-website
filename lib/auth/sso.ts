@@ -15,6 +15,8 @@ export type LeadFlowSsoPayload = {
   companyName: string;
   companySlug: string;
   subscriptionPlan: string;
+  platformRole?: string;
+  internalAccess?: boolean;
   iss: string;
   aud: string;
   jti: string;

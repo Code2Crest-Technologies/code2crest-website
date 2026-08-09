@@ -5,6 +5,7 @@ import type { ProductAccessView } from "@/modules/products/server";
 type ProductGridProps = {
   compact?: boolean;
   products: ProductAccessView[];
+  isInternalPlatformAdmin?: boolean;
 };
 
 function formatStatus(status: ProductStatus) {
@@ -44,16 +45,105 @@ function getProductCategory(productKey: string) {
   return categories[productKey] ?? "Business Tool";
 }
 
-export default function ProductGrid({ compact = false, products }: ProductGridProps) {
+function isTrialExpired(product: ProductAccessView) {
+  return (
+    product.access?.status === CompanyProductStatus.TRIAL &&
+    Boolean(product.access.trialEndsAt) &&
+    new Date(product.access.trialEndsAt as Date) < new Date()
+  );
+}
+
+function getAccessLabel(
+  product: ProductAccessView,
+  isInternalPlatformAdmin: boolean,
+) {
+  if (isInternalPlatformAdmin && product.key === "leadflow") {
+    return "Internal Access";
+  }
+
+  if (!product.access) {
+    return product.status === ProductStatus.ACTIVE
+      ? "Access Required"
+      : "Coming Soon";
+  }
+
+  if (isTrialExpired(product)) {
+    return "Trial Expired";
+  }
+
+  return formatAccessStatus(product.access.status);
+}
+
+function getProductAction(
+  product: ProductAccessView,
+  isInternalPlatformAdmin: boolean,
+) {
+  const isAvailable = product.status === ProductStatus.ACTIVE;
+  const access = product.access;
+  const trialExpired = isTrialExpired(product);
+  const canLaunch =
+    product.key === "leadflow" &&
+    isAvailable &&
+    (isInternalPlatformAdmin ||
+      (access?.status === CompanyProductStatus.ACTIVE ||
+        (access?.status === CompanyProductStatus.TRIAL && !trialExpired)));
+
+  if (canLaunch) {
+    return {
+      href: getProductLaunchUrl(product),
+      label: "Open App",
+      primary: true,
+      disabled: false,
+      newTab: true,
+    };
+  }
+
+  if (product.key === "leadflow" && trialExpired) {
+    return {
+      href: "/subscription?reason=leadflow_trial_expired",
+      label: "View Plans",
+      primary: false,
+      disabled: false,
+      newTab: false,
+    };
+  }
+
+  if (
+    product.key === "leadflow" &&
+    (access?.status === CompanyProductStatus.SUSPENDED ||
+      access?.status === CompanyProductStatus.CANCELLED ||
+      access?.status === CompanyProductStatus.EXPIRED)
+  ) {
+    return {
+      href: "/subscription?reason=subscription_suspended",
+      label: "Manage Subscription",
+      primary: false,
+      disabled: false,
+      newTab: false,
+    };
+  }
+
+  return {
+    href: null,
+    label: isAvailable ? "Access Required" : "Coming Soon",
+    primary: false,
+    disabled: true,
+    newTab: false,
+  };
+}
+
+export default function ProductGrid({
+  compact = false,
+  products,
+  isInternalPlatformAdmin = false,
+}: ProductGridProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {products.map((product) => {
         const isAvailable = product.status === ProductStatus.ACTIVE;
         const access = product.access;
-        const hasAccess =
-          access?.status === CompanyProductStatus.TRIAL ||
-          access?.status === CompanyProductStatus.ACTIVE;
-        const launchUrl = getProductLaunchUrl(product);
+        const action = getProductAction(product, isInternalPlatformAdmin);
+        const accessLabel = getAccessLabel(product, isInternalPlatformAdmin);
 
         return (
           <article
@@ -66,11 +156,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
                   {product.name}
                 </h3>
                 <p className="mt-1 text-sm text-slate-500">
-                  {hasAccess && access
-                    ? `${formatAccessStatus(access.status)} access`
-                    : isAvailable
-                      ? "Available now"
-                      : "Planned product"}
+                  {accessLabel}
                 </p>
               </div>
 
@@ -101,7 +187,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
               </div>
               <div className="flex items-center justify-between gap-3">
                 <dt className="font-semibold text-slate-600">Company access</dt>
-                <dd>{access ? formatAccessStatus(access.status) : "Not enabled"}</dd>
+                <dd>{accessLabel}</dd>
               </div>
               <div className="flex items-center justify-between gap-3">
                 <dt className="font-semibold text-slate-600">Domain</dt>
@@ -109,15 +195,19 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
               </div>
             </dl>
 
-            {hasAccess && launchUrl ? (
+            {!action.disabled && action.href ? (
               <a
-                href={launchUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700"
+                href={action.href}
+                target={action.newTab ? "_blank" : undefined}
+                rel={action.newTab ? "noopener noreferrer" : undefined}
+                className={
+                  action.primary
+                    ? "mt-6 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700"
+                    : "mt-6 inline-flex h-10 items-center justify-center rounded-md border border-blue-200 bg-blue-50 px-4 text-sm font-semibold text-blue-700 transition hover:border-blue-300 hover:bg-blue-100"
+                }
               >
-                Open App
-                <FaArrowUpRightFromSquare className="h-3.5 w-3.5" />
+                {action.label}
+                {action.newTab ? <FaArrowUpRightFromSquare className="h-3.5 w-3.5" /> : null}
               </a>
             ) : (
               <button
@@ -125,7 +215,7 @@ export default function ProductGrid({ compact = false, products }: ProductGridPr
                 disabled
                 className="mt-6 inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-slate-50 px-4 text-sm font-semibold text-slate-400"
               >
-                {isAvailable ? "Access Required" : "Coming Soon"}
+                {action.label}
               </button>
             )}
 

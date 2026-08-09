@@ -21,9 +21,17 @@ export default async function DashboardPage() {
   const products = await getCompanyProductAccess(context.companyId);
   const subscription = await getCompanySubscription(context.companyId);
   const leadFlow = products.find((product) => product.key === "leadflow");
+  const isInternalPlatformAdmin = context.user.platformRole === "PLATFORM_ADMIN";
+  const leadFlowTrialEndsAt = leadFlow?.access?.trialEndsAt;
+  const leadFlowTrialExpired =
+    leadFlow?.access?.status === CompanyProductStatus.TRIAL &&
+    Boolean(leadFlowTrialEndsAt) &&
+    leadFlowTrialEndsAt! < new Date();
   const hasLeadFlowAccess =
-    leadFlow?.access?.status === CompanyProductStatus.TRIAL ||
-    leadFlow?.access?.status === CompanyProductStatus.ACTIVE;
+    isInternalPlatformAdmin ||
+    leadFlow?.access?.status === CompanyProductStatus.ACTIVE ||
+    (leadFlow?.access?.status === CompanyProductStatus.TRIAL &&
+      !leadFlowTrialExpired);
   const hasCompanyProfile =
     Boolean(context.company.website) ||
     Boolean(context.company.phone) ||
@@ -184,7 +192,11 @@ export default async function DashboardPage() {
             Open active apps and preview upcoming Code2Crest tools.
           </p>
         </div>
-        <ProductGrid compact products={products} />
+        <ProductGrid
+          compact
+          products={products}
+          isInternalPlatformAdmin={isInternalPlatformAdmin}
+        />
       </section>
     </div>
   );

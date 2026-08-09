@@ -13,6 +13,7 @@ type SubscriptionStatus =
 type LimitValue = number | "unlimited";
 
 type SubscriptionResponse = {
+  platformRole?: string;
   plan: Plan;
   status: SubscriptionStatus;
   billingCycle: string;
@@ -35,6 +36,27 @@ type SubscriptionResponse = {
     accessStatus: string | null;
   }[];
   trialDaysRemaining: number | null;
+};
+
+const reasonMessages: Record<
+  string,
+  { title: string; body: string; tone: "warning" | "info" }
+> = {
+  leadflow_trial_expired: {
+    title: "Your LeadFlow trial has ended.",
+    body: "Choose a plan to continue using LeadFlow and keep access to your CRM workspace.",
+    tone: "warning",
+  },
+  subscription_suspended: {
+    title: "Your subscription needs attention.",
+    body: "Manage your subscription to restore access to your Code2Crest product workspace.",
+    tone: "warning",
+  },
+  subscription_expired: {
+    title: "Your subscription has expired.",
+    body: "Choose a plan to continue using Code2Crest Hub products.",
+    tone: "warning",
+  },
 };
 
 const comparisonPlans: Plan[] = ["TRIAL", "STARTER", "GROWTH", "BUSINESS"];
@@ -64,11 +86,14 @@ function formatDate(value: string | null) {
 
 export default function SubscriptionPanel() {
   const [subscription, setSubscription] = useState<SubscriptionResponse | null>(null);
+  const [reason, setReason] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [actionMessage, setActionMessage] = useState("");
 
   useEffect(() => {
+    setReason(new URLSearchParams(window.location.search).get("reason") ?? "");
+
     async function loadSubscription() {
       const response = await fetch("/api/subscription", { cache: "no-store" });
       const data = (await response.json().catch(() => null)) as
@@ -120,6 +145,10 @@ export default function SubscriptionPanel() {
       limit: subscription.limits.contacts,
     },
   ];
+  const reasonMessage =
+    subscription.platformRole === "PLATFORM_ADMIN"
+      ? null
+      : reasonMessages[reason] ?? null;
 
   async function requestCheckout(plan: Plan) {
     setActionMessage("");
@@ -140,6 +169,37 @@ export default function SubscriptionPanel() {
 
   return (
     <div className="space-y-6">
+      {reasonMessage ? (
+        <section
+          className={
+            reasonMessage.tone === "warning"
+              ? "rounded-lg border border-amber-200 bg-amber-50 p-5 shadow-sm"
+              : "rounded-lg border border-blue-100 bg-blue-50 p-5 shadow-sm"
+          }
+        >
+          <p className="text-base font-semibold text-slate-950">
+            {reasonMessage.title}
+          </p>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-700">
+            {reasonMessage.body}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-3">
+            <a
+              href="#plans"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700"
+            >
+              View plans
+            </a>
+            <a
+              href="/products"
+              className="inline-flex h-10 items-center justify-center rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            >
+              Back to products
+            </a>
+          </div>
+        </section>
+      ) : null}
+
       <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/70">
         <p className="text-sm font-semibold text-blue-600">Current Plan</p>
         <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -209,7 +269,7 @@ export default function SubscriptionPanel() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-4">
+      <section id="plans" className="grid gap-4 lg:grid-cols-4">
         {comparisonPlans.map((plan) => {
           const config = portalPlanConfig[plan];
           const isCurrent = subscription.plan === plan;

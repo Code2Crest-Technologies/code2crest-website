@@ -64,3 +64,23 @@ test("audit log creation exists for required security events", () => {
     assert.match(sources, new RegExp(action));
   }
 });
+
+test("LeadFlow launch uses browser redirects and explicit internal admin claims", () => {
+  const launchRoute = read("app/api/products/leadflow/launch/route.ts");
+  const sso = read("lib/auth/sso.ts");
+  const productGrid = read("modules/portal/components/product-grid.tsx");
+  const subscriptionPanel = read("modules/portal/components/subscription-panel.tsx");
+
+  assert.match(launchRoute, /PlatformRole\.PLATFORM_ADMIN/);
+  assert.match(launchRoute, /internalAccess:\s*isInternalPlatformAdmin/);
+  assert.match(launchRoute, /platformRole:\s*isInternalPlatformAdmin/);
+  assert.match(launchRoute, /leadflow_trial_expired/);
+  assert.match(launchRoute, /subscription_suspended/);
+  assert.match(launchRoute, /product_unavailable/);
+  assert.match(launchRoute, /isBrowserRequest/);
+  assert.match(sso, /internalAccess\?: boolean/);
+  assert.match(sso, /platformRole\?: string/);
+  assert.match(productGrid, /Internal Access/);
+  assert.match(productGrid, /Trial Expired/);
+  assert.match(subscriptionPanel, /Your LeadFlow trial has ended/);
+});

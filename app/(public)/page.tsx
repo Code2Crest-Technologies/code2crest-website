@@ -5,8 +5,8 @@ import Home from "@/modules/website/components/home";
 import Workflows from "@/modules/website/components/workflows";
 import Portfolio from "@/modules/website/components/portfolio";
 import AboutFounder from "@/modules/website/components/about-founder";
-// import Testimonials from "@/modules/website/components/testimonials";
-import GetQuote from "@/modules/website/components/get-quote";
+import Testimonials from "@/modules/website/components/testimonials";
+import QuoteCta from "@/modules/website/components/quote-cta";
 import Contact from "@/modules/website/components/contact";
 import WhatsAppButton from "@/modules/website/components/ui/whatsapp-button";
 import Services from "@/modules/website/components/services";
@@ -53,8 +53,8 @@ export default function Page() {
       <Workflows />
       <Portfolio />
       <AboutFounder />
-      {/* <Testimonials /> */}
-      <GetQuote />
+      <Testimonials />
+      <QuoteCta />
       <Contact />
       <WhatsAppButton />
     </>

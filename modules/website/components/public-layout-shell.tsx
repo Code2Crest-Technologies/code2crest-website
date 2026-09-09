@@ -6,6 +6,7 @@ import "aos/dist/aos.css";
 import Header from "@/modules/website/components/ui/header";
 import Footer from "@/modules/website/components/ui/footer";
 import ScrollToTop from "@/modules/website/components/ui/scroll-to-top";
+import { QuoteModalProvider } from "@/modules/website/components/quote-modal-provider";
 
 export default function PublicLayoutShell({
   children,
@@ -22,11 +23,11 @@ export default function PublicLayoutShell({
   });
 
   return (
-    <>
+    <QuoteModalProvider>
       <Header />
       <main className="relative flex grow flex-col">{children}</main>
       <ScrollToTop />
       <Footer />
-    </>
+    </QuoteModalProvider>
   );
 }

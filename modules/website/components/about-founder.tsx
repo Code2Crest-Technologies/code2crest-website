@@ -75,25 +75,31 @@ export default function AboutFounder() {
               </p>
 
               {/* Quick Stats */}
-              <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="mb-6 grid grid-cols-3 gap-2.5 sm:gap-3">
 
-                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                  <h4 className="text-2xl font-bold text-white">7+</h4>
-                  <p className="text-xs text-slate-400">
+                <div className="flex min-h-20 flex-col justify-center rounded-xl border border-indigo-500/25 bg-gradient-to-br from-indigo-500/10 to-blue-500/5 p-3 text-center shadow-[0_18px_45px_-35px_rgba(99,102,241,0.75)] sm:min-h-24 sm:p-4">
+                  <h4 className="text-xl font-bold leading-none text-white sm:text-2xl">
+                    7+
+                  </h4>
+                  <p className="mt-2 text-[11px] leading-tight text-slate-400 sm:text-xs">
                     Years Experience
                   </p>
                 </div>
 
-                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                  <h4 className="text-2xl font-bold text-white">30+</h4>
-                  <p className="text-xs text-slate-400">
+                <div className="flex min-h-20 flex-col justify-center rounded-xl border border-indigo-500/25 bg-gradient-to-br from-indigo-500/10 to-cyan-500/5 p-3 text-center shadow-[0_18px_45px_-35px_rgba(34,211,238,0.65)] sm:min-h-24 sm:p-4">
+                  <h4 className="text-xl font-bold leading-none text-white sm:text-2xl">
+                    30+
+                  </h4>
+                  <p className="mt-2 text-[11px] leading-tight text-slate-400 sm:text-xs">
                     Projects Built
                   </p>
                 </div>
 
-                <div className="flex h-full flex-col justify-center rounded-xl border border-indigo-500/20 bg-indigo-500/5 p-4 text-center">
-                  <h4 className="text-2xl font-bold text-white">100%</h4>
-                  <p className="text-xs text-slate-400">
+                <div className="flex min-h-20 flex-col justify-center rounded-xl border border-indigo-500/25 bg-gradient-to-br from-indigo-500/10 to-fuchsia-500/5 p-3 text-center shadow-[0_18px_45px_-35px_rgba(168,85,247,0.65)] sm:min-h-24 sm:p-4">
+                  <h4 className="text-xl font-bold leading-none text-white sm:text-2xl">
+                    100%
+                  </h4>
+                  <p className="mt-2 text-[11px] leading-tight text-slate-400 sm:text-xs">
                     Client Focus
                   </p>
                 </div>

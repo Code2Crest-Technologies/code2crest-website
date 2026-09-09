@@ -1,35 +1,47 @@
 import Image from "next/image";
 import BlurredShape from "@/public/images/blurred-shape.svg";
+import { FaQuoteLeft, FaStar } from "react-icons/fa";
 
 const testimonials = [
   {
     id: 1,
-    clientName: "Rajesh Kumar",
-    project: "E-Commerce Platform",
+    type: "review",
+    clientName: "Bionics Enviro Tech Pvt Ltd",
+    project: "Website Development",
+    source: "Google Review",
+    rating: 5,
+    logo: {
+      src: "/images/client-logos/bionics-enviro-tech.png",
+      alt: "Bionics Enviro Tech logo",
+      frame: "light",
+      className: "p-2.5",
+    },
     feedback:
-      "Code2Crest built our e-commerce platform and exceeded our expectations. The platform is fast, secure, and user-friendly. Highly recommended!",
+      "We had a great experience working with Code2Crest Technologies for our company website development. They understood our requirements well and delivered a fast, responsive and professional website with excellent attention to performance and user experience. Highly recommended for reliable website development and technology solutions.",
   },
   {
     id: 2,
-    clientName: "Priya Sharma",
-    project: "Restaurant Management System",
+    type: "project",
+    clientName: "Akshaa Nature",
+    project: "Organic Cosmetics · E-Commerce Website",
+    source: "Project Story",
+    rating: 5,
+    logo: {
+      src: "/images/client-logos/akshaa-nature.png",
+      alt: "Akshaa Nature logo",
+      frame: "dark",
+      className: "p-1.5",
+    },
     feedback:
-      "Working with Code2Crest was a smooth experience. They delivered our restaurant ordering system on time and it has increased our online orders by 40%.",
-  },
-  {
-    id: 3,
-    clientName: "Amit Patel",
-    project: "School ERP Dashboard",
-    feedback:
-      "The school management system developed by Code2Crest has streamlined our operations. Staff and parents love the user-friendly interface. Great job!",
+      "A digital commerce experience developed for Akshaa Nature, an organic cosmetics brand, with a focus on presenting their natural product range through a clean, customer-friendly online experience.",
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section id="testimonials" className="relative">
+    <section id="testimonials" className="relative scroll-mt-24 overflow-hidden">
       <div
-        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -mb-80 -translate-x-[120%] opacity-50"
+        className="pointer-events-none absolute bottom-0 left-1/2 -z-10 -mb-80 -translate-x-[110%] opacity-25"
         aria-hidden="true"
       >
         <Image
@@ -41,58 +53,94 @@ export default function Testimonials() {
         />
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="border-t py-12 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1] md:py-20">
+      <div className="pointer-events-none absolute inset-x-0 top-24 -z-10 h-64 bg-cyan-500/5 blur-3xl" />
+
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
+        <div className="border-t py-12 md:py-16 lg:py-20 [border-image:linear-gradient(to_right,transparent,--theme(--color-slate-400/.25),transparent)1]">
           {/* Section header */}
-          <div className="mx-auto max-w-3xl pb-4 text-center md:pb-12">
+          <div className="mx-auto max-w-3xl pb-8 text-center md:pb-10">
             <div className="inline-flex items-center gap-3 pb-3 before:h-px before:w-8 before:bg-linear-to-r before:from-transparent before:to-indigo-200/50 after:h-px after:w-8 after:bg-linear-to-l after:from-transparent after:to-indigo-200/50">
-              <span className="inline-flex bg-linear-to-r from-indigo-500 to-cyan-400 bg-clip-text text-transparent">
-                Client Success Stories
+              <span className="inline-flex bg-linear-to-r from-indigo-500 to-cyan-400 bg-clip-text font-semibold text-transparent">
+                Client Feedback & Projects
               </span>
             </div>
             <h2 className="pb-4 font-nacelle text-3xl font-semibold text-white md:text-4xl">
               Trusted by Growing Businesses
             </h2>
             <p className="text-lg text-indigo-200/65">
-              Hands-on feedback from clients who experienced faster launches, better performance, and modern digital experiences.
+              Real businesses. Real projects. Digital experiences built around their goals.
             </p>
           </div>
 
           {/* Testimonials Grid */}
-          <div className="mx-auto grid max-w-sm gap-8 sm:max-w-none sm:grid-cols-3 md:gap-8">
+          <div className="mx-auto grid max-w-sm gap-6 sm:max-w-none md:grid-cols-2 lg:gap-6">
             {testimonials.map((testimonial, idx) => (
               <article
                 key={testimonial.id}
-                className="group relative overflow-hidden rounded-[2rem] border border-indigo-500/20 bg-gradient-to-br from-slate-900/70 to-slate-950/95 p-6 md:p-8 shadow-[0_20px_90px_-40px_rgba(15,23,42,0.9)] transition duration-300 hover:-translate-y-1 hover:border-indigo-500/60 hover:shadow-[0_0_30px_-5px_rgba(99,102,241,0.5)]"
+                className="group relative flex h-full min-h-[300px] overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900/80 to-slate-950/80 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-500/60 hover:shadow-[0_0_35px_-8px_rgba(99,102,241,0.45)] md:p-6"
                 data-aos="fade-up"
                 data-aos-delay={idx * 100}
               >
                 {/* Glow effect on hover */}
-                <div className="absolute inset-0 -z-10 bg-linear-to-r from-indigo-600 to-cyan-600 opacity-0 blur-xl transition-opacity duration-300 group-hover:opacity-15 rounded-[2rem]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-cyan-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                {/* Star Rating */}
-                <div className="mb-4 flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <svg
-                      key={i}
-                      className="h-5 w-5 fill-yellow-400"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
+                <div className="relative z-10 flex h-full flex-col">
+                  <div className="mb-6 flex items-start justify-between gap-4">
+                    <div
+                      className={`flex h-14 w-36 shrink-0 items-center rounded-xl ring-1 sm:h-16 sm:w-40 ${
+                        testimonial.logo.frame === "light"
+                          ? "bg-white/95 shadow-[0_14px_35px_-24px_rgba(255,255,255,0.8)] ring-white/20"
+                          : "bg-slate-950/70 shadow-[0_14px_35px_-22px_rgba(99,102,241,0.55)] ring-indigo-400/30"
+                      } ${testimonial.logo.className}`}
                     >
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  ))}
-                </div>
+                      <div className="relative h-full w-full">
+                        <Image
+                          src={testimonial.logo.src}
+                          alt={testimonial.logo.alt}
+                          fill
+                          sizes="160px"
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
 
-                {/* Feedback */}
-                <p className="mb-6 text-base text-indigo-200/75 leading-relaxed">
-                  "{testimonial.feedback}"
-                </p>
+                    <div className="flex items-center gap-1 rounded-full border border-amber-400/20 bg-amber-400/10 px-3 py-1.5">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <FaStar key={i} className="h-3.5 w-3.5 text-amber-300" />
+                      ))}
+                    </div>
+                  </div>
 
-                {/* Client Info */}
-                <div>
-                  <p className="font-semibold text-white">{testimonial.clientName}</p>
-                  <p className="text-sm text-indigo-200/65">{testimonial.project}</p>
+                  {/* Feedback */}
+                  <div className="mb-4 flex items-center gap-2 text-indigo-300">
+                    <FaQuoteLeft className="h-4 w-4" />
+                    <span className="text-xs font-medium uppercase tracking-[0.18em] text-indigo-200/60">
+                      {testimonial.type === "review"
+                        ? "Client Review"
+                        : "Project Snapshot"}
+                    </span>
+                  </div>
+                  <p className="text-base leading-7 text-slate-300 md:text-[15px]">
+                    &ldquo;{testimonial.feedback}&rdquo;
+                  </p>
+
+                  {/* Client Info */}
+                  <div className="mt-auto pt-6">
+                    <div className="h-px w-full bg-gradient-to-r from-indigo-400/25 via-slate-400/10 to-transparent" />
+                    <div className="mt-5 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
+                      <div>
+                        <p className="font-semibold text-white">
+                          {testimonial.clientName}
+                        </p>
+                        <p className="text-sm leading-6 text-indigo-200/65">
+                          {testimonial.project}
+                        </p>
+                      </div>
+                      <span className="text-xs font-medium uppercase tracking-[0.16em] text-cyan-300/80">
+                        {testimonial.source}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </article>
             ))}

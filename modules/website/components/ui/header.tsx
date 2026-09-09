@@ -4,9 +4,11 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Logo from "./logo";
 import { getPortalHref } from "@/lib/config/public-url";
+import { useQuoteModal } from "@/modules/website/components/quote-modal-provider";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { openQuote } = useQuoteModal();
   const pathname = usePathname();
   const productsHref = pathname === "/products" ? "/products" : "/#products";
   const hubLoginHref = getPortalHref("/login");
@@ -58,12 +60,13 @@ export default function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <a
-            href="/#GetQuote"
+          <button
+            type="button"
+            onClick={() => openQuote("navbar")}
             className="hidden h-10 items-center justify-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white transition hover:bg-blue-700 md:inline-flex"
           >
             Get Quote
-          </a>
+          </button>
 
           <a
             href={hubLoginHref}
@@ -156,13 +159,16 @@ export default function Header() {
                   Contact
                 </a>
 
-                <a
-                  href="/#GetQuote"
-                  onClick={() => setMenuOpen(false)}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    openQuote("mobile_nav");
+                  }}
                   className="mt-3 rounded-lg bg-blue-600 px-4 py-3 text-center font-semibold text-white hover:bg-blue-700"
                 >
                   Get Quote
-                </a>
+                </button>
 
                 <a
                   href={hubLoginHref}

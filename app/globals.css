@@ -100,3 +100,37 @@
     scroll-margin-top: 5rem;
   }
 }
+
+@layer components {
+  .quote-modal-scrollbar {
+    scrollbar-color: rgb(59 130 246 / 0.65) rgb(15 23 42 / 0.8);
+    scrollbar-width: thin;
+  }
+
+  .quote-modal-scrollbar::-webkit-scrollbar {
+    width: 0.625rem;
+  }
+
+  .quote-modal-scrollbar::-webkit-scrollbar-track {
+    background: rgb(15 23 42 / 0.8);
+    border-left: 1px solid rgb(30 41 59 / 0.85);
+  }
+
+  .quote-modal-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgb(96 165 250 / 0.9),
+      rgb(99 102 241 / 0.78)
+    );
+    border: 2px solid rgb(15 23 42 / 0.95);
+    border-radius: 999px;
+  }
+
+  .quote-modal-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgb(147 197 253 / 0.95),
+      rgb(129 140 248 / 0.9)
+    );
+  }
+}

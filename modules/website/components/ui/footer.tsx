@@ -8,9 +8,113 @@ import {
   FaLinkedin,
   FaGithub,
   FaInstagram,
+  FaChevronDown,
 } from "react-icons/fa";
 
+const footerSections = [
+  {
+    title: "Company",
+    links: [
+      { label: "About", href: "/#about-founder" },
+      { label: "Services", href: "/#services" },
+      { label: "Products", href: "/#products" },
+      { label: "Contact", href: "/#contact" },
+      { label: "Testimonials", href: "/#testimonials" },
+    ],
+  },
+  {
+    title: "Services",
+    links: [
+      { label: "Web Development", href: "/#services" },
+      { label: "E-Commerce Solutions", href: "/#services" },
+      { label: "React & Next.js Apps", href: "/#services" },
+      { label: "Mobile App Development", href: "/#services" },
+      { label: "Custom Software", href: "/#services" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms & Conditions", href: "/terms-and-conditions" },
+      { label: "Cookie Policy", href: "/cookie-policy" },
+      { label: "Refund & Cancellation Policy", href: "/refund-cancellation-policy" },
+    ],
+  },
+  {
+    title: "Technologies",
+    links: [
+      { label: "React.js" },
+      { label: "Next.js" },
+      { label: "Node.js" },
+      { label: "MongoDB" },
+      { label: "Strapi" },
+      { label: "TypeScript" },
+    ],
+  },
+  {
+    title: "Contact",
+    links: [
+      { label: "+91 95248 99042", href: "tel:+919524899042" },
+      { label: "hello@code2crest.com", href: "mailto:hello@code2crest.com" },
+      { label: "Erode, Tamil Nadu" },
+      { label: "India" },
+    ],
+  },
+];
+
+function FooterLink({
+  href,
+  label,
+  external,
+}: {
+  href?: string;
+  label: string;
+  external?: boolean;
+}) {
+  if (!href) {
+    return <span className="text-slate-400">{label}</span>;
+  }
+
+  const isInternal = href.startsWith("/");
+
+  if (isInternal) {
+    return (
+      <Link
+        href={href}
+        className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        {label}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noopener noreferrer" : undefined}
+      className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      {label}
+    </a>
+  );
+}
+
 export default function Footer() {
+  const sections = [
+    ...footerSections.slice(0, 3),
+    {
+      title: "Products",
+      links: products.map((product) => ({
+        label: product.name,
+        href: product.href ?? `/#${product.slug}`,
+        external: Boolean(product.href),
+      })),
+    },
+    ...footerSections.slice(3),
+  ];
+
   return (
     <footer className="relative border-t border-slate-800">
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-6">
@@ -72,7 +176,29 @@ export default function Footer() {
           </div>
 
           {/* Footer Links */}
-          <div className="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-6 lg:text-left">
+          <div className="space-y-3 md:hidden">
+            {sections.map((section) => (
+              <details
+                key={section.title}
+                className="group rounded-xl border border-slate-800 bg-slate-950/70"
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 text-left text-sm font-semibold text-white marker:hidden">
+                  {section.title}
+                  <FaChevronDown className="h-3.5 w-3.5 text-indigo-300 transition group-open:rotate-180" />
+                </summary>
+
+                <ul className="space-y-3 border-t border-slate-800 px-4 py-4 text-sm">
+                  {section.links.map((link) => (
+                    <li key={link.label}>
+                      <FooterLink {...link} />
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            ))}
+          </div>
+
+          <div className="hidden gap-8 text-center md:grid md:grid-cols-2 lg:grid-cols-6 lg:text-left">
 
             {/* Company */}
             <div>
@@ -114,6 +240,14 @@ export default function Footer() {
                     className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/#testimonials"
+                    className="text-slate-400 transition hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    Testimonials
                   </Link>
                 </li>
               </ul>

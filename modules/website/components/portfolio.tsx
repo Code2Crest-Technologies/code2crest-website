@@ -101,45 +101,45 @@ export default function Portfolio() {
                 key={project.id}
                 data-aos="fade-up"
                 data-aos-delay={idx * 100}
-                className="group relative flex h-full min-h-[240px] overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900/80 to-slate-950/80 p-5 transition-all duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_35px_-8px_rgba(99,102,241,0.45)]"
+                className="group relative flex h-full overflow-hidden rounded-2xl border border-indigo-500/20 bg-gradient-to-br from-slate-900/80 to-slate-950/80 p-4 transition-all duration-300 hover:border-indigo-500/60 hover:shadow-[0_0_35px_-8px_rgba(99,102,241,0.45)] sm:p-5"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-cyan-500/0 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                <div className="relative z-10 flex h-full gap-5">
-                  <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500/10 to-cyan-500/10">
-                    {project.icon}
-                  </div>
+                <div className="relative z-10 flex h-full w-full flex-col">
+                  <div className="mb-4 flex items-start gap-4">
+                    <div className="flex h-[3.25rem] w-[3.25rem] shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-indigo-500/10 to-cyan-500/10 sm:h-14 sm:w-14 [&_svg]:h-6 [&_svg]:w-6 sm:[&_svg]:h-7 sm:[&_svg]:w-7">
+                      {project.icon}
+                    </div>
 
-                  <div className="flex flex-1 flex-col">
-                    <div className="mb-3">
+                    <div className="min-w-0 flex-1">
                       <span className="rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1 text-xs font-medium text-green-400">
                         Production Ready
                       </span>
+
+                      <h3 className="mt-3 text-lg font-semibold leading-snug text-white sm:text-xl">
+                        {project.title}
+                      </h3>
                     </div>
-
-                    <h3 className="mb-3 text-xl font-semibold text-white">
-                      {project.title}
-                    </h3>
-
-                    <p className="mb-5 text-sm leading-6 text-slate-400">
-                      {project.description}
-                    </p>
-
-                    <div className="mb-5 flex flex-wrap gap-2">
-                      {project.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-xs text-indigo-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-
-                    <span className="mt-auto text-sm font-medium text-indigo-400 transition group-hover:text-indigo-300">
-                      View Details -&gt;
-                    </span>
                   </div>
+
+                  <p className="text-sm leading-6 text-slate-400">
+                    {project.description}
+                  </p>
+
+                  <div className="mt-4 grid grid-cols-2 gap-2 min-[420px]:grid-cols-4 md:flex md:flex-wrap">
+                    {project.tech.map((tech) => (
+                      <span
+                        key={tech}
+                        className="inline-flex min-h-8 items-center justify-center rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3 py-1 text-center text-xs text-indigo-300 md:min-h-0"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  <span className="mt-5 text-sm font-medium text-indigo-400 transition group-hover:text-indigo-300">
+                    View Details -&gt;
+                  </span>
                 </div>
               </article>
             ))}

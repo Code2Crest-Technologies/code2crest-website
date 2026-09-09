@@ -47,6 +47,7 @@ export function normalizeAttribution(value: unknown): LeadAttribution {
     referrer: normalizeOptional(attribution.referrer, 500),
     landingPage: normalizeOptional(attribution.landingPage, 500),
     currentPage: normalizeOptional(attribution.currentPage, 500),
+    modalSource: normalizeOptional(attribution.modalSource, 80),
   };
 }
 

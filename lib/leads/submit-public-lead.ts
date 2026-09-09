@@ -72,6 +72,7 @@ function leadNotificationEmail(lead: NormalizedPublicLead) {
         ${row("Referrer", lead.attribution?.referrer)}
         ${row("Landing page", lead.attribution?.landingPage)}
         ${row("Current page", lead.attribution?.currentPage)}
+        ${row("Modal source", lead.attribution?.modalSource)}
       </table>
 
       <p style="margin-top:24px">
@@ -107,6 +108,7 @@ function leadNotificationEmail(lead: NormalizedPublicLead) {
     `Referrer: ${text(lead.attribution?.referrer)}`,
     `Landing page: ${text(lead.attribution?.landingPage)}`,
     `Current page: ${text(lead.attribution?.currentPage)}`,
+    `Modal source: ${text(lead.attribution?.modalSource)}`,
     "",
     `Reply to lead: ${replyMailto}`,
   ].join("\n");

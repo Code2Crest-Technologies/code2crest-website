@@ -1,4 +1,7 @@
-export type ProductStatus = "Active / Launching Soon" | "Coming Soon";
+export type ProductStatus =
+  | "Active / Launching Soon"
+  | "In Development"
+  | "Coming Soon";
 
 export type Product = {
   name: string;
@@ -18,6 +21,14 @@ export const products: Product[] = [
       "CRM for small businesses to manage leads, contacts, deals, quotations, tasks, and WhatsApp follow-ups.",
     cta: "Open LeadFlow",
     href: "https://leadflow.code2crest.com",
+  },
+  {
+    name: "RestoCrest",
+    slug: "restocrest",
+    status: "In Development",
+    description:
+      "An all-in-one restaurant operations platform for QR ordering, tables, online orders, billing, kitchen workflows, and order management.",
+    cta: "See What's Coming",
   },
   {
     name: "ProjectFlow",
@@ -60,4 +71,13 @@ export const leadFlowFeatures = [
   "Quotation creation",
   "WhatsApp quick actions",
   "Team member access",
+];
+
+export const restoCrestFeatures = [
+  "QR table ordering",
+  "Table management",
+  "Online order management",
+  "Billing and POS workflows",
+  "Kitchen order workflows",
+  "Swiggy and Zomato order integration",
 ];

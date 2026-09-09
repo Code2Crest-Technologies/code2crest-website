@@ -1,7 +1,12 @@
+"use client";
+
 import { FaArrowRight, FaCheck, FaExternalLinkAlt } from "react-icons/fa";
 import { leadFlowFeatures } from "@/modules/portal/data/products";
+import { useQuoteModal } from "@/modules/website/components/quote-modal-provider";
 
 export default function LeadFlowHighlight() {
+  const { openQuote } = useQuoteModal();
+
   return (
     <section id="leadflow" className="relative scroll-mt-24 overflow-hidden">
       <div className="mx-auto max-w-[1200px] px-4 py-12 sm:px-6 md:py-14 lg:px-6 lg:py-16">
@@ -24,13 +29,14 @@ export default function LeadFlowHighlight() {
               </p>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="/#contact"
+                <button
+                  type="button"
+                  onClick={() => openQuote("products")}
                   className="inline-flex h-11 min-w-36 items-center justify-center gap-2 rounded-full bg-blue-600 px-6 text-sm font-semibold text-white shadow-[0_18px_45px_-25px_rgba(37,99,235,0.8)] transition duration-300 hover:-translate-y-0.5 hover:bg-blue-500"
                 >
                   Book a Demo
                   <FaArrowRight className="h-3.5 w-3.5" />
-                </a>
+                </button>
 
                 <a
                   href="https://leadflow.code2crest.com"

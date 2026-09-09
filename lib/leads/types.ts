@@ -63,6 +63,7 @@ export type LeadAttribution = {
   referrer?: string;
   landingPage?: string;
   currentPage?: string;
+  modalSource?: string;
 };
 
 export type PublicLeadInput = {
